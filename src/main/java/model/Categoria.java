@@ -1,13 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author João Pedro Maziero
- */
 public class Categoria {
-    
+
+    private String nome;
+    private String tamanho;
+    private String embalagem;
+
+    public Categoria(String nome, String tamanho, String embalagem) {
+        this.nome = nome;
+        this.tamanho = tamanho;
+        this.embalagem = embalagem;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTamanho() {
+        return tamanho;
+    }
+
+    public String getEmbalagem() {
+        return embalagem;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
+
+    public void setEmbalagem(String embalagem) {
+        this.embalagem = embalagem;
+    }
+
 }

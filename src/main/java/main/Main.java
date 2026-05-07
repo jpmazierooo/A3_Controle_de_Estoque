@@ -1,9 +1,11 @@
 package main;
-
+import view.FrmaMenuPrincipal;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        FrmaMenuPrincipal objetotela = new FrmaMenuPrincipal();
+        objetotela.setVisible(true);
+        
     }
 }

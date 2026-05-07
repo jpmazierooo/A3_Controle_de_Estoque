@@ -56,7 +56,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
         jBVoltar.setText("Voltar");
 
-        jLBuscarCategoria.setText("Buscar Categoria:");
+        jLBuscarCategoria.setText("Buscar Categorias:");
 
         jCBTipoTamanhoGC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pequeno", "Medio", "Grande" }));
         jCBTipoTamanhoGC.addActionListener(this::jCBTipoTamanhoGCActionPerformed);

@@ -1,7 +1,7 @@
-
 package model;
 
 public class Movimentacao {
+
     private String nomeprod;
     private String datamov;
     private double qtdmov;
@@ -48,5 +48,15 @@ public class Movimentacao {
     public void setTipomov(String tipomov) {
         this.tipomov = tipomov;
     }
-    
+
+    public boolean isEntrada() {
+        return tipomov.equalsIgnoreCase("Entrada");
+
+    }
+
+    public boolean isSaida() {
+        return tipomov.equalsIgnoreCase("Saida");
+
+    }
+
 }

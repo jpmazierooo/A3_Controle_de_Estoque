@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS sistema_estoque;
 USE sistema_estoque;
 
 -- Criação da tabela produto
-CREATE TABLE categoria (
+CREATE TABLE IF NOT EXISTS categoria (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     tamanho ENUM('PEQUENO', 'MEDIO', 'GRANDE') NOT NULL,

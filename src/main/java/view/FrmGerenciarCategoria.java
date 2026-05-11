@@ -4,12 +4,15 @@
  */
 package view;
 
+import dao.CategoriaDAO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author pedro
  */
 public class FrmGerenciarCategoria extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGerenciarCategoria.class.getName());
 
     /**
@@ -17,6 +20,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
      */
     public FrmGerenciarCategoria() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -29,14 +34,14 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     private void initComponents() {
 
         jLGerenciarCategorias = new javax.swing.JLabel();
-        jBNovo = new javax.swing.JButton();
-        jBAlterar = new javax.swing.JButton();
-        jBExcluir = new javax.swing.JButton();
-        jBVoltar = new javax.swing.JButton();
-        jLBuscarCategoria = new javax.swing.JLabel();
-        jTFNomeCategoria = new javax.swing.JTextField();
+        jBNovoGC = new javax.swing.JButton();
+        jBAlterarGC = new javax.swing.JButton();
+        jBExcluirGC = new javax.swing.JButton();
+        jBVoltarGC = new javax.swing.JButton();
+        jLBuscarCategoriaGC = new javax.swing.JLabel();
+        jTFNomeCategoriaGC = new javax.swing.JTextField();
         jCBTipoTamanhoGC = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jCBTipoEmbalagemGC = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -46,22 +51,24 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         jLGerenciarCategorias.setText("Gerenciar Categorias");
         jLGerenciarCategorias.setPreferredSize(new java.awt.Dimension(200, 18));
 
-        jBNovo.setText("Novo");
-        jBNovo.addActionListener(this::jBNovoActionPerformed);
+        jBNovoGC.setText("Novo");
+        jBNovoGC.addActionListener(this::jBNovoGCActionPerformed);
 
-        jBAlterar.setText("Alterar");
+        jBAlterarGC.setText("Alterar");
 
-        jBExcluir.setText("Excluir");
-        jBExcluir.addActionListener(this::jBExcluirActionPerformed);
+        jBExcluirGC.setText("Excluir");
+        jBExcluirGC.addActionListener(this::jBExcluirGCActionPerformed);
 
-        jBVoltar.setText("Voltar");
+        jBVoltarGC.setText("Voltar");
+        jBVoltarGC.addActionListener(this::jBVoltarGCActionPerformed);
 
-        jLBuscarCategoria.setText("Buscar Categorias:");
+        jLBuscarCategoriaGC.setText("Buscar Categorias:");
 
         jCBTipoTamanhoGC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pequeno", "Medio", "Grande" }));
         jCBTipoTamanhoGC.addActionListener(this::jCBTipoTamanhoGCActionPerformed);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lata", "Vidro", "Plástico" }));
+        jCBTipoEmbalagemGC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lata", "Vidro", "Plástico" }));
+        jCBTipoEmbalagemGC.addActionListener(this::jCBTipoEmbalagemGCActionPerformed);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,29 +93,29 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(183, 183, 183)
-                                .addComponent(jBNovo)
+                                .addComponent(jBNovoGC)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(54, 54, 54)
-                                .addComponent(jLBuscarCategoria)
+                                .addComponent(jLBuscarCategoriaGC)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTFNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(19, 19, 19)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBAlterar)
-                            .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jBExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBVoltar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(274, 274, 274)
-                        .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBAlterarGC)
+                                    .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jBExcluirGC)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jBVoltarGC))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(158, 158, 158)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -117,20 +124,20 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBVoltar)
-                    .addComponent(jBExcluir)
-                    .addComponent(jBAlterar)
-                    .addComponent(jBNovo))
+                    .addComponent(jBVoltarGC)
+                    .addComponent(jBExcluirGC)
+                    .addComponent(jBAlterarGC)
+                    .addComponent(jBNovoGC))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLBuscarCategoria)
-                    .addComponent(jTFNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLBuscarCategoriaGC)
+                    .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -139,17 +146,54 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
+    private void jBNovoGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoGCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jBNovoActionPerformed
+    }//GEN-LAST:event_jBNovoGCActionPerformed
 
-    private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBExcluirActionPerformed
+    private void jBExcluirGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirGCActionPerformed
+        int linhaSelecionada = jTable1.getSelectedRow();
+
+        // Verifica se alguma linha foi selecionada
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma categoria na tabela!");
+            return;
+        }
+
+        // Pega o id da linha selecionada (coluna 0 = ID)
+        int id = Integer.parseInt(jTable1.getValueAt(linhaSelecionada, 0).toString());
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+                null,
+                "Deseja realmente excluir?",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            try {
+                CategoriaDAO dao = new CategoriaDAO();
+                dao.deletar(id);
+                JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
+
+            } catch (java.sql.SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir: " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jBExcluirGCActionPerformed
 
     private void jCBTipoTamanhoGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoTamanhoGCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCBTipoTamanhoGCActionPerformed
+
+    private void jBVoltarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVoltarGCActionPerformed
+        FrmaMenuPrincipal janela = new FrmaMenuPrincipal();
+        janela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBVoltarGCActionPerformed
+
+    private void jCBTipoEmbalagemGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoEmbalagemGCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCBTipoEmbalagemGCActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,16 +222,16 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBAlterar;
-    private javax.swing.JButton jBExcluir;
-    private javax.swing.JButton jBNovo;
-    private javax.swing.JButton jBVoltar;
+    private javax.swing.JButton jBAlterarGC;
+    private javax.swing.JButton jBExcluirGC;
+    private javax.swing.JButton jBNovoGC;
+    private javax.swing.JButton jBVoltarGC;
+    private javax.swing.JComboBox<String> jCBTipoEmbalagemGC;
     private javax.swing.JComboBox<String> jCBTipoTamanhoGC;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLBuscarCategoria;
+    private javax.swing.JLabel jLBuscarCategoriaGC;
     private javax.swing.JLabel jLGerenciarCategorias;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTFNomeCategoria;
+    private javax.swing.JTextField jTFNomeCategoriaGC;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,9 @@
 package model;
+import dao.ProdutoDAO;
+import java.util.ArrayList;
 
 public class Produto {
-
+    private int id;
     private String nome;
     private double precoUn;
     private int unidade;
@@ -10,7 +12,12 @@ public class Produto {
     private int quantidadeMax;
     private String categoria;
 
-    public Produto(String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, String categoria) {
+    public Produto() {
+    }
+    
+
+    public Produto(int id, String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, String categoria) {
+        this.id = id;
         this.nome = nome;
         this.precoUn = precoUn;
         this.unidade = unidade;
@@ -18,6 +25,10 @@ public class Produto {
         this.quantidadeMin = quantidadeMin;
         this.quantidadeMax = quantidadeMax;
         this.categoria = categoria;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNome() {
@@ -48,6 +59,10 @@ public class Produto {
         return categoria;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -74,6 +89,16 @@ public class Produto {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+    public ArrayList<Produto> getMinhaLista(){
+        return ProdutoDAO.getMinhaLista();
+    }
+    // Cadastra novo produto
+    public boolean insertProdutoBD(String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, String categoria){
+        int id = ProdutoDAO.maiorID() + 1;
+        Produto objeto = new Produto(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria);
+        getMinhaLista().add(objeto);
+        return true;
     }
 
 }

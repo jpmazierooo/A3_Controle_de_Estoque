@@ -4,21 +4,56 @@
  */
 package view;
 
+import model.Produto;
+import dao.ProdutoDAO;
+import java.util.ArrayList;
+import view.Mensagem;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author João Pedro Maziero
  */
 public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
+    private Produto objetoProduto;
+
+    public FrmGerenciarProdutos() {
+        initComponents();
+        this.objetoProduto = new Produto();
+        this.carregaTabela();
+    }
+
+    public void GerenciaProduto() {
+        initComponents();
+        this.objetoProduto = new Produto();
+    }
+
+    public void carregaTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTableGerenciar.getModel();
+        modelo.setNumRows(0);
+        ArrayList<Produto> minhaLista = objetoProduto.getMinhaLista();
+        for (Produto a : minhaLista) { 
+            modelo.addRow(new Object[]{
+                a.getId(),
+                a.getNome(),
+                a.getPrecoUn(),
+                a.getQuantidade(),
+                a.getQuantidadeMax(), 
+                a.getQuantidadeMin(),
+                a.getUnidade() });
+            
+          
+                      
+        } 
+    }
+    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGerenciarProdutos.class.getName());
 
     /**
      * Creates new form FrmGerenciarProdutos
      */
-    public FrmGerenciarProdutos() {
-        initComponents();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,12 +80,12 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         c_QtdMin = new javax.swing.JTextField();
         c_QtdMax = new javax.swing.JTextField();
         cb_Categoria = new javax.swing.JComboBox<>();
-        b_Adicionar = new javax.swing.JButton();
+        b_Cadastrar = new javax.swing.JButton();
         b_Editar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTableGerenciar = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         b_Entrada = new javax.swing.JButton();
@@ -86,11 +121,13 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
         jLabel7.setText("Categoria: ");
 
+        c_NomeProd.addActionListener(this::c_NomeProdActionPerformed);
+
         c_PrecoUN.addActionListener(this::c_PrecoUNActionPerformed);
 
         c_QtdEstoque.addActionListener(this::c_QtdEstoqueActionPerformed);
 
-        cb_Unidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_Unidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "KG", "UN", "L" }));
         cb_Unidade.addActionListener(this::cb_UnidadeActionPerformed);
 
         c_QtdMin.addActionListener(this::c_QtdMinActionPerformed);
@@ -99,7 +136,8 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
         cb_Categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        b_Adicionar.setText("Adicionar");
+        b_Cadastrar.setText("Cadastrar");
+        b_Cadastrar.addActionListener(this::b_CadastrarActionPerformed);
 
         b_Editar.setText("Editar");
 
@@ -108,7 +146,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         jButton2.setText("Sair");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableGerenciar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -124,16 +162,16 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setAlignmentX(0.6F);
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(55);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(28);
-            jTable2.getColumnModel().getColumn(3).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(4).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(5).setPreferredWidth(30);
+        jTableGerenciar.setAlignmentX(0.6F);
+        jTableGerenciar.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTableGerenciar);
+        if (jTableGerenciar.getColumnModel().getColumnCount() > 0) {
+            jTableGerenciar.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jTableGerenciar.getColumnModel().getColumn(1).setPreferredWidth(55);
+            jTableGerenciar.getColumnModel().getColumn(2).setPreferredWidth(28);
+            jTableGerenciar.getColumnModel().getColumn(3).setPreferredWidth(30);
+            jTableGerenciar.getColumnModel().getColumn(4).setPreferredWidth(30);
+            jTableGerenciar.getColumnModel().getColumn(5).setPreferredWidth(30);
         }
 
         jLabel8.setText("Entrada e Saída Estoque:");
@@ -153,7 +191,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
-                        .addComponent(b_Adicionar)
+                        .addComponent(b_Cadastrar)
                         .addGap(18, 18, 18)
                         .addComponent(b_Editar)
                         .addGap(18, 18, 18)
@@ -175,8 +213,8 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(19, 19, 19)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(c_PrecoUN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(c_NomeProd, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(c_NomeProd, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(c_PrecoUN, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,7 +293,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                             .addComponent(cb_Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(b_Adicionar)
+                    .addComponent(b_Cadastrar)
                     .addComponent(b_Editar)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -297,6 +335,60 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_b_SaídaActionPerformed
 
+    private void c_NomeProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_NomeProdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_c_NomeProdActionPerformed
+
+    private void b_CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_CadastrarActionPerformed
+        try {
+            int id = 0;
+            String nome = "";
+            double precoUn = 0;
+            int unidade = 0;
+            int quantidade = 0;
+            int quantidadeMin = 0;
+            int quantidadeMax = 0;
+            String categoria = "";
+            quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
+            if (this.c_NomeProd.getText().length() < 2) {
+                throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
+            } else {
+                nome = this.c_NomeProd.getText();
+            }
+            if (this.c_PrecoUN.getText().length() <= 0) {
+                throw new Mensagem("O Preço Unitário deve ser número e maior que zero.");
+            } else {
+                precoUn = Double.parseDouble(this.c_PrecoUN.getText());
+            }
+            if (this.c_QtdMax.getText().length() <= 0) {
+                throw new Mensagem("A Quantidade Máxima deve ser número e maior que zero.");
+            } else {
+                quantidadeMax = Integer.parseInt(this.c_QtdMax.getText());
+            }
+            if (this.c_QtdMin.getText().length() <= 0) {
+                throw new Mensagem("A Quantidade Mínima deve ser número e maior que zero.");
+            } else {
+                quantidadeMin = Integer.parseInt(this.c_QtdMin.getText());
+            }
+
+            // envia os dados para o Controlador cadastrar 
+            if (this.objetoProduto.insertProdutoBD(nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria)) {
+                JOptionPane.showMessageDialog(null, "Produto Cadastrado com Sucesso!");
+            } // limpa campos da interface 
+            this.c_NomeProd.setText("");
+            this.c_PrecoUN.setText("");
+            this.c_QtdMax.setText("");
+            this.c_QtdMin.setText("");
+            this.c_QtdEstoque.setText("");
+
+        } catch (Mensagem erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (NumberFormatException erro2) {
+            JOptionPane.showMessageDialog(null, "Informe um número válido.");
+
+    }//GEN-LAST:event_b_CadastrarActionPerformed
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -323,7 +415,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_Adicionar;
+    private javax.swing.JButton b_Cadastrar;
     private javax.swing.JButton b_Editar;
     private javax.swing.JButton b_Entrada;
     private javax.swing.JButton b_Saída;
@@ -348,7 +440,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableGerenciar;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

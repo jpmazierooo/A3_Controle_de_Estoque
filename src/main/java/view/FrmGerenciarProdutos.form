@@ -51,7 +51,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                      <Component id="b_Adicionar" min="-2" max="-2" attributes="0"/>
+                      <Component id="b_Cadastrar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="b_Editar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -75,8 +75,8 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="c_PrecoUN" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="c_NomeProd" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                                          <Component id="c_NomeProd" min="-2" pref="195" max="-2" attributes="0"/>
+                                          <Component id="c_PrecoUN" min="-2" pref="73" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -185,7 +185,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="b_Adicionar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="b_Cadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="b_Editar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -236,6 +236,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="c_NomeProd">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="c_NomeProdActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="c_PrecoUN">
       <Events>
@@ -250,11 +253,10 @@
     <Component class="javax.swing.JComboBox" name="cb_Unidade">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+          <StringArray count="3">
+            <StringItem index="0" value="KG"/>
+            <StringItem index="1" value="UN"/>
+            <StringItem index="2" value="L"/>
           </StringArray>
         </Property>
       </Properties>
@@ -290,10 +292,13 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="b_Adicionar">
+    <Component class="javax.swing.JButton" name="b_Cadastrar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Adicionar"/>
+        <Property name="text" type="java.lang.String" value="Cadastrar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_CadastrarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="b_Editar">
       <Properties>
@@ -320,7 +325,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable2">
+        <Component class="javax.swing.JTable" name="jTableGerenciar">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="7" rowCount="0">

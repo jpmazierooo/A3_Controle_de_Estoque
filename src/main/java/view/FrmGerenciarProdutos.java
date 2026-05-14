@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import view.Mensagem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author João Pedro Maziero
@@ -33,21 +34,19 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) this.jTableGerenciar.getModel();
         modelo.setNumRows(0);
         ArrayList<Produto> minhaLista = objetoProduto.getMinhaLista();
-        for (Produto a : minhaLista) { 
+        for (Produto a : minhaLista) {
             modelo.addRow(new Object[]{
                 a.getId(),
                 a.getNome(),
                 a.getPrecoUn(),
                 a.getQuantidade(),
-                a.getQuantidadeMax(), 
+                a.getQuantidadeMax(),
                 a.getQuantidadeMin(),
-                a.getUnidade() });
-            
-          
-                      
-        } 
+                a.getUnidade(),
+                a.getCategoria()});
+
+        }
     }
-    
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGerenciarProdutos.class.getName());
 
@@ -140,6 +139,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         b_Cadastrar.addActionListener(this::b_CadastrarActionPerformed);
 
         b_Editar.setText("Editar");
+        b_Editar.addActionListener(this::b_EditarActionPerformed);
 
         jButton1.setText("Apagar");
 
@@ -151,11 +151,11 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome", "Unidade", "Qtd. Estoque", "Qtd. Min.", "Qtd. Máx.", "Categoria"
+                "ID", "Nome", "Preço UN", "Unidade", "Qtd. Estoque", "Qtd. Mín.", "Qtd. Máx.", "Categoria"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -164,6 +164,11 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         });
         jTableGerenciar.setAlignmentX(0.6F);
         jTableGerenciar.getTableHeader().setReorderingAllowed(false);
+        jTableGerenciar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableGerenciarMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableGerenciar);
         if (jTableGerenciar.getColumnModel().getColumnCount() > 0) {
             jTableGerenciar.getColumnModel().getColumn(0).setPreferredWidth(60);
@@ -385,9 +390,34 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
             JOptionPane.showMessageDialog(null, "Informe um número válido.");
+        }
 
     }//GEN-LAST:event_b_CadastrarActionPerformed
-    }
+
+    private void jTableGerenciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableGerenciarMouseClicked
+        // TODO add your handling code here:
+        if (this.jTableGerenciar.getSelectedRow() != -1) {
+            String nome = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 1).toString();
+            String precoUn = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 2).toString();
+            String unidade = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 3).toString();
+            String quantidade = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 4).toString();
+            String quantidadeMin = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 5).toString();
+            String quantidadeMax = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 6).toString();
+            String categoria = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 7).toString();
+
+            this.c_NomeProd.setText(nome);
+            this.c_PrecoUN.setText(precoUn);
+            this.cb_Unidade.setSelectedItem(unidade);
+            this.c_QtdEstoque.setText(quantidade);
+            this.c_QtdMin.setText(quantidadeMin);
+            this.c_QtdMax.setText(quantidadeMax);
+            this.cb_Categoria.setSelectedItem(categoria);
+        }
+    }//GEN-LAST:event_jTableGerenciarMouseClicked
+
+    private void b_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_EditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_b_EditarActionPerformed
 
     /**
      * @param args the command line arguments

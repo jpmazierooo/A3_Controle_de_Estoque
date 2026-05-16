@@ -9,7 +9,7 @@ package view;
  * @author João Pedro Maziero
  */
 public class FrmaMenuPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmaMenuPrincipal.class.getName());
 
     /**
@@ -123,8 +123,8 @@ public class FrmaMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    FrmGerenciarCategoria telaCategoria = new FrmGerenciarCategoria(); 
-        telaCategoria.setVisible(true);        // TODO add your handling code here:
+        FrmGerenciarCategoria telaCategoria = new FrmGerenciarCategoria();
+        telaCategoria.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -136,13 +136,15 @@ public class FrmaMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    FrmGerenciarProdutos aa = new FrmGerenciarProdutos(); 
-        aa.setVisible(true);// TODO add your handling code here:
-        
+        FrmGerenciarProdutos aa = new FrmGerenciarProdutos();
+        aa.setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        FrmMovimentacao tela = new FrmMovimentacao();
+        tela.setVisible(true);
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

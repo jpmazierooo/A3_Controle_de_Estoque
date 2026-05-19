@@ -12,12 +12,12 @@ public class Produto {
     private int quantidade;
     private int quantidadeMin;
     private int quantidadeMax;
-    private String categoria;
+    private int categoria;
 
     public Produto() {
     }
 
-    public Produto(int id, String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, String categoria) {
+    public Produto(int id, String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, int categoria) {
         this.id = id;
         this.nome = nome;
         this.precoUn = precoUn;
@@ -56,7 +56,7 @@ public class Produto {
         return quantidadeMax;
     }
 
-    public String getCategoria() {
+    public int getCategoria() {
         return categoria;
     }
 
@@ -88,7 +88,7 @@ public class Produto {
         this.quantidadeMax = quantidadeMax;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(int categoria) {
         this.categoria = categoria;
     }
 
@@ -97,7 +97,7 @@ public class Produto {
     }
 
     // Cadastra novo produto
-    public boolean insertProdutoBD(String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, String categoria) {
+    public boolean insertProdutoBD(String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, int categoria) {
         int id = ProdutoDAO.maiorID() + 1;
         Produto objeto = new Produto(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria);
         getMinhaLista().add(objeto);
@@ -105,14 +105,14 @@ public class Produto {
     }
 
     // Deleta um produto pelo ID
-    public boolean deleteAlunoBD(int id) {
+    public boolean deleteProdutoBD(int id) {
         int indice = this.procuraIndice(id);
         getMinhaLista().remove(indice);
         return true;
     }
 
     //Edita um produto específico pelo seu campo ID
-    public boolean updateAlunoBD(int id, String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, String categoria) {
+    public boolean updateProdutoBD(int id, String nome, double precoUn, int unidade, int quantidade, int quantidadeMin, int quantidadeMax, int categoria) {
         Produto objeto = new Produto(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria);
         int indice = this.procuraIndice(id);
         getMinhaLista().set(indice, objeto);

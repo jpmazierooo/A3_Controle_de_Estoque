@@ -39,10 +39,10 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                 a.getId(),
                 a.getNome(),
                 a.getPrecoUn(),
-                a.getQuantidade(),
-                a.getQuantidadeMax(),
-                a.getQuantidadeMin(),
                 a.getUnidade(),
+                a.getQuantidade(),
+                a.getQuantidadeMin(),
+                a.getQuantidadeMax(),
                 a.getCategoria()});
 
         }
@@ -133,7 +133,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
         c_QtdMax.addActionListener(this::c_QtdMaxActionPerformed);
 
-        cb_Categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_Categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Comida", "Bebida", "Material de Limpeza", " " }));
 
         b_Cadastrar.setText("Cadastrar");
         b_Cadastrar.addActionListener(this::b_CadastrarActionPerformed);
@@ -142,6 +142,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         b_Editar.addActionListener(this::b_EditarActionPerformed);
 
         jButton1.setText("Apagar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setText("Sair");
         jButton2.addActionListener(this::jButton2ActionPerformed);
@@ -214,7 +215,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel4))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(19, 19, 19)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +228,9 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                                             .addComponent(cb_Unidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(c_QtdMin, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(c_QtdMax, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cb_Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(cb_Categoria, 0, 1, Short.MAX_VALUE)
+                                                .addGap(114, 114, 114)))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -353,7 +356,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             int quantidade = 0;
             int quantidadeMin = 0;
             int quantidadeMax = 0;
-            String categoria = "";
+            int categoria = 0;
             quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
             if (this.c_NomeProd.getText().length() < 2) {
                 throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
@@ -382,14 +385,18 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             } // limpa campos da interface 
             this.c_NomeProd.setText("");
             this.c_PrecoUN.setText("");
-            this.c_QtdMax.setText("");
-            this.c_QtdMin.setText("");
+            this.cb_Unidade.setSelectedItem("");
             this.c_QtdEstoque.setText("");
+            this.c_QtdMin.setText("");
+            this.c_QtdMax.setText("");
+            this.cb_Categoria.setSelectedItem("");
 
         } catch (Mensagem erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
             JOptionPane.showMessageDialog(null, "Informe um número válido.");
+        } finally {
+            carregaTabela();
         }
 
     }//GEN-LAST:event_b_CadastrarActionPerformed
@@ -416,8 +423,100 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableGerenciarMouseClicked
 
     private void b_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_EditarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // recebendo e validando dados da interface gráfica.
+
+            int id = 0;
+            String nome = "";
+            double precoUn = 0;
+            int unidade = 0;
+            int quantidade = 0;
+            int quantidadeMin = 0;
+            int quantidadeMax = 0;
+            int categoria = 0;
+            quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
+            if (this.c_NomeProd.getText().length() < 2) {
+                throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
+            } else {
+                nome = this.c_NomeProd.getText();
+            }
+            if (this.c_PrecoUN.getText().length() <= 0) {
+                throw new Mensagem("O Preço Unitário deve ser número e maior que zero.");
+            } else {
+                precoUn = Double.parseDouble(this.c_PrecoUN.getText());
+            }
+            if (this.c_QtdMax.getText().length() <= 0) {
+                throw new Mensagem("A Quantidade Máxima deve ser número e maior que zero.");
+            } else {
+                quantidadeMax = Integer.parseInt(this.c_QtdMax.getText());
+            }
+            if (this.c_QtdMin.getText().length() <= 0) {
+                throw new Mensagem("A Quantidade Mínima deve ser número e maior que zero.");
+            } else {
+                quantidadeMin = Integer.parseInt(this.c_QtdMin.getText());
+            }
+            if (this.jTableGerenciar.getSelectedRow() == -1) {
+                throw new Mensagem("Primeiro Selecione um Produto para Alterar");
+            } else {
+                id = Integer.parseInt(this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 0).toString());
+            }
+            // envia os dados para o Controlador cadastrar 
+            if (this.objetoProduto.updateProdutoBD(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria)) {
+                JOptionPane.showMessageDialog(null, "Produto Editado com Sucesso!");
+            } // limpa campos da interface 
+            this.c_NomeProd.setText("");
+            this.c_PrecoUN.setText("");
+            this.cb_Unidade.setSelectedItem("");
+            this.c_QtdEstoque.setText("");
+            this.c_QtdMin.setText("");
+            this.c_QtdMax.setText("");
+            this.cb_Categoria.setSelectedItem("");
+
+        } catch (Mensagem erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (NumberFormatException erro2) {
+            JOptionPane.showMessageDialog(null, "Informe um número válido.");
+        } finally {
+            carregaTabela();
+        }
+
     }//GEN-LAST:event_b_EditarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // validando dados da interface gráfica.
+            int id = 0;
+            if (this.jTableGerenciar.getSelectedRow() == -1) {
+                throw new Mensagem("Primeiro Selecione um Produto para APAGAR");
+            } else {
+                id = Integer.parseInt(this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 0).toString());
+            }
+            // retorna 0 -> primeiro botão | 1 -> segundo botão | 2 -> terceiro botão
+            int respostaUsuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja apagar este Aluno ?");
+            if (respostaUsuario == 0) {
+            // clicou em SIM
+            // envia os dados para o Aluno processar
+                if (this.objetoProduto.deleteProdutoBD(id)) {
+            // limpa os campos
+                    this.c_NomeProd.setText("");
+                    this.c_PrecoUN.setText("");
+                    this.cb_Unidade.setSelectedItem("");
+                    this.c_QtdEstoque.setText("");
+                    this.c_QtdMin.setText("");
+                    this.c_QtdMax.setText("");
+                    this.cb_Categoria.setSelectedItem("");
+                    JOptionPane.showMessageDialog(rootPane, "Aluno Apagado com Sucesso!");
+                }
+            }
+            // atualiza a tabela.
+            System.out.println(this.objetoProduto.getMinhaLista().toString());
+        } catch (Mensagem erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } finally {
+            // atualiza a tabela.
+            carregaTabela();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

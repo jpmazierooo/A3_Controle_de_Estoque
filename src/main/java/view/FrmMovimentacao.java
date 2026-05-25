@@ -1,6 +1,9 @@
 package view;
 
 import dao.MovimentacaoDAO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Movimentacao;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,8 +20,44 @@ public class FrmMovimentacao extends javax.swing.JFrame {
     private MovimentacaoDAO movimentacaoDAO = new MovimentacaoDAO();
 
     public FrmMovimentacao() {
+
         initComponents();
         setResizable(false);
+        carregarTabela();
+        setLocationRelativeTo(null);
+        jTable3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+
+        jTable3.getColumnModel().getColumn(0).setPreferredWidth(120);
+        jTable3.getColumnModel().getColumn(1).setPreferredWidth(50);
+        jTable3.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTable3.getColumnModel().getColumn(3).setPreferredWidth(60);
+        jTable3.getColumnModel().getColumn(4).setPreferredWidth(100);
+        jTable3.getColumnModel().getColumn(5).setPreferredWidth(120);
+        jTable3.getColumnModel().getColumn(6).setPreferredWidth(160);
+    }
+
+    private void carregarTabela() {
+
+        DefaultTableModel modelo
+                = (DefaultTableModel) jTable3.getModel();
+
+        modelo.setRowCount(0);
+
+        List<Movimentacao> lista
+                = movimentacaoDAO.listarMovimentacoes();
+
+        for (Movimentacao m : lista) {
+
+            modelo.addRow(new Object[]{
+                m.getNome(),
+                m.getId(),
+                m.getTipo(),
+                m.getQtd(),
+                m.getData(),
+                m.getMovimentacao(),
+                m.getStatusEstoque()
+            });
+        }
     }
 
     /**

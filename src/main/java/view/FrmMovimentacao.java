@@ -18,6 +18,7 @@ public class FrmMovimentacao extends javax.swing.JFrame {
 
     public FrmMovimentacao() {
         initComponents();
+        setResizable(false);
     }
 
     /**

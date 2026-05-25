@@ -18,4 +18,12 @@
             <version>9.3.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/recurso</directory>
+            </resource>
+        </resources>
+    </build>
 </project>

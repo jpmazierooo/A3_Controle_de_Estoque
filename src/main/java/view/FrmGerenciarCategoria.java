@@ -86,6 +86,11 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                 "ID", "Nome", "Tamanho", "Embalagem"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         jBBuscarGC.setText("Buscar:");
@@ -115,18 +120,18 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(90, 90, 90)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JBSalvarGC)
-                        .addContainerGap(105, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jBNovoGC)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JBSalvarGC)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBAlterarGC)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBExcluirGC)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBExcluirGC)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBVoltarGC)
-                        .addGap(201, 201, 201))))
+                        .addGap(213, 213, 213))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,14 +143,14 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                     .addComponent(jBAlterarGC)
                     .addComponent(jBExcluirGC)
                     .addComponent(jBVoltarGC)
-                    .addComponent(jBNovoGC))
+                    .addComponent(jBNovoGC)
+                    .addComponent(JBSalvarGC))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBBuscarGC)
-                    .addComponent(JBSalvarGC))
+                    .addComponent(jBBuscarGC))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(45, Short.MAX_VALUE))
@@ -211,11 +216,38 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jTFNomeCategoriaGCActionPerformed
 
     private void jBBuscarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarGCActionPerformed
-        
+
     }//GEN-LAST:event_jBBuscarGCActionPerformed
 
     private void jBAlterarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarGCActionPerformed
-        
+        int linhaSelecionada = jTable1.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma categoria para alterar!");
+            return;
+        }
+
+        String nome = this.jTFNomeCategoriaGC.getText();
+        String tamanho = this.jCBTipoTamanhoGC.getSelectedItem().toString();
+        String embalagem = this.jCBTipoEmbalagemGC.getSelectedItem().toString();
+
+        if (nome.length() < 2) {
+            JOptionPane.showMessageDialog(null, "Nome deve conter ao menos 2 caracteres.");
+            return;
+        }
+
+        model.Categoria cat = listaCategorias.get(linhaSelecionada);
+        cat.setNome(nome);
+        cat.setTamanho(tamanho);
+        cat.setEmbalagem(embalagem);
+
+        JOptionPane.showMessageDialog(null, "Categoria alterada com sucesso!");
+
+        this.jTFNomeCategoriaGC.setText("");
+        this.jCBTipoTamanhoGC.setSelectedIndex(0);
+        this.jCBTipoEmbalagemGC.setSelectedIndex(0);
+
+        carregaTabela();
     }//GEN-LAST:event_jBAlterarGCActionPerformed
 
     private void JBSalvarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSalvarGCActionPerformed
@@ -238,6 +270,16 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
         carregaTabela();
     }//GEN-LAST:event_JBSalvarGCActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int linhaSelecionada = jTable1.getSelectedRow();
+        if (linhaSelecionada != -1) {
+            model.Categoria cat = listaCategorias.get(linhaSelecionada);
+            this.jTFNomeCategoriaGC.setText(cat.getNome());
+            this.jCBTipoTamanhoGC.setSelectedItem(cat.getTamanho());
+            this.jCBTipoEmbalagemGC.setSelectedItem(cat.getEmbalagem());
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments

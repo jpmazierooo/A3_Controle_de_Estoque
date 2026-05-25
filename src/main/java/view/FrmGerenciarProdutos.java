@@ -352,11 +352,11 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             int id = 0;
             String nome = "";
             double precoUn = 0;
-            int unidade = 0;
+            String unidade = "";
             int quantidade = 0;
             int quantidadeMin = 0;
             int quantidadeMax = 0;
-            int categoria = 0;
+            String categoria = "";
             quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
             if (this.c_NomeProd.getText().length() < 2) {
                 throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
@@ -429,11 +429,11 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             int id = 0;
             String nome = "";
             double precoUn = 0;
-            int unidade = 0;
+            String unidade = "";
             int quantidade = 0;
             int quantidadeMin = 0;
             int quantidadeMax = 0;
-            int categoria = 0;
+            String categoria = "";
             quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
             if (this.c_NomeProd.getText().length() < 2) {
                 throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
@@ -492,7 +492,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                 id = Integer.parseInt(this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 0).toString());
             }
             // retorna 0 -> primeiro botão | 1 -> segundo botão | 2 -> terceiro botão
-            int respostaUsuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja apagar este Aluno ?");
+            int respostaUsuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja apagar este Produto ?");
             if (respostaUsuario == 0) {
             // clicou em SIM
             // envia os dados para o Aluno processar
@@ -505,7 +505,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                     this.c_QtdMin.setText("");
                     this.c_QtdMax.setText("");
                     this.cb_Categoria.setSelectedItem("");
-                    JOptionPane.showMessageDialog(rootPane, "Aluno Apagado com Sucesso!");
+                    JOptionPane.showMessageDialog(rootPane, "Produto Apagado com Sucesso!");
                 }
             }
             // atualiza a tabela.

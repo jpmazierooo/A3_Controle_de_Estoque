@@ -24,6 +24,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        jBAlterarGC.setEnabled(false); // desabilita Alterar
+        jBExcluirGC.setEnabled(false); // desabilita Excluir
         carregaTabela();
     }
 
@@ -164,7 +166,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         this.jCBTipoTamanhoGC.setSelectedIndex(0);
         this.jCBTipoEmbalagemGC.setSelectedIndex(0);
         this.jTFNomeCategoriaGC.requestFocus();
-
+        jBAlterarGC.setEnabled(false); // desabilita ao limpar
+        jBExcluirGC.setEnabled(false); // desabilita ao limpar
     }//GEN-LAST:event_jBNovoGCActionPerformed
 
     private void jBExcluirGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirGCActionPerformed
@@ -259,6 +262,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             return;
         }
 
+      
         model.Categoria cat = listaCategorias.get(linhaSelecionada);
         cat.setNome(nome);
         cat.setTamanho(tamanho);
@@ -282,7 +286,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nome deve conter ao menos 2 caracteres.");
             return;
         }
-
+      
         model.Categoria cat = new model.Categoria(nome, tamanho, embalagem);
         listaCategorias.add(cat);
         JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso!");
@@ -301,6 +305,10 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             this.jTFNomeCategoriaGC.setText(cat.getNome());
             this.jCBTipoTamanhoGC.setSelectedItem(cat.getTamanho());
             this.jCBTipoEmbalagemGC.setSelectedItem(cat.getEmbalagem());
+
+            // habilita os botões ao selecionar uma linha
+            jBAlterarGC.setEnabled(true);
+            jBExcluirGC.setEnabled(true);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

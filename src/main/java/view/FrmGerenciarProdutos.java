@@ -5,8 +5,11 @@
 package view;
 
 import model.Produto;
+import model.Categoria;
 import dao.ProdutoDAO;
+import dao.CategoriaDAO;
 import java.util.ArrayList;
+import java.util.List;
 import view.Mensagem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,11 +21,45 @@ import javax.swing.table.DefaultTableModel;
 public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
     private Produto objetoProduto;
+    private List<Categoria> categorias = new ArrayList<>();
 
     public FrmGerenciarProdutos() {
         initComponents();
         this.objetoProduto = new Produto();
+        carregarCategorias();
         this.carregaTabela();
+    }
+
+    /** Carrega as categorias do banco e popula o ComboBox. */
+    private void carregarCategorias() {
+        try {
+            categorias = new CategoriaDAO().listarTodos();
+            cb_Categoria.removeAllItems();
+            for (Categoria c : categorias) {
+                cb_Categoria.addItem(c.getNome());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar categorias: " + e.getMessage());
+        }
+    }
+
+    /** Retorna o nome da categoria pelo ID, para exibição na tabela. */
+    private String getNomeCategoria(int id) {
+        for (Categoria c : categorias) {
+            if (c.getId() == id) {
+                return c.getNome();
+            }
+        }
+        return String.valueOf(id);
+    }
+
+    /** Retorna o ID da categoria selecionada no ComboBox. */
+    private int getIdCategoriaSelecionada() {
+        int idx = cb_Categoria.getSelectedIndex();
+        if (idx >= 0 && idx < categorias.size()) {
+            return categorias.get(idx).getId();
+        }
+        return -1;
     }
 
     public void GerenciaProduto() {
@@ -43,8 +80,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
                 a.getQuantidade(),
                 a.getQuantidadeMin(),
                 a.getQuantidadeMax(),
-                a.getCategoria()});
-
+                getNomeCategoria(a.getCategoriaId())});
         }
     }
 
@@ -349,14 +385,12 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
     private void b_CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_CadastrarActionPerformed
         try {
-            int id = 0;
             String nome = "";
             double precoUn = 0;
             String unidade = "";
             int quantidade = 0;
             int quantidadeMin = 0;
             int quantidadeMax = 0;
-            String categoria = "";
             quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
             if (this.c_NomeProd.getText().length() < 2) {
                 throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
@@ -378,18 +412,23 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             } else {
                 quantidadeMin = Integer.parseInt(this.c_QtdMin.getText());
             }
+            unidade = this.cb_Unidade.getSelectedItem().toString();
+            int categoriaId = getIdCategoriaSelecionada();
+            if (categoriaId == -1) {
+                throw new Mensagem("Selecione uma categoria válida.");
+            }
 
-            // envia os dados para o Controlador cadastrar 
-            if (this.objetoProduto.insertProdutoBD(nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria)) {
+            // envia os dados para o DAO cadastrar
+            if (this.objetoProduto.insertProdutoBD(nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoriaId)) {
                 JOptionPane.showMessageDialog(null, "Produto Cadastrado com Sucesso!");
-            } // limpa campos da interface 
+            } // limpa campos da interface
             this.c_NomeProd.setText("");
             this.c_PrecoUN.setText("");
-            this.cb_Unidade.setSelectedItem("");
+            this.cb_Unidade.setSelectedIndex(0);
             this.c_QtdEstoque.setText("");
             this.c_QtdMin.setText("");
             this.c_QtdMax.setText("");
-            this.cb_Categoria.setSelectedItem("");
+            this.cb_Categoria.setSelectedIndex(0);
 
         } catch (Mensagem erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
@@ -412,20 +451,19 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             String quantidadeMax = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 6).toString();
             String categoria = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 7).toString();
 
+            String nomeCategoria = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 7).toString();
             this.c_NomeProd.setText(nome);
             this.c_PrecoUN.setText(precoUn);
             this.cb_Unidade.setSelectedItem(unidade);
             this.c_QtdEstoque.setText(quantidade);
             this.c_QtdMin.setText(quantidadeMin);
             this.c_QtdMax.setText(quantidadeMax);
-            this.cb_Categoria.setSelectedItem(categoria);
+            this.cb_Categoria.setSelectedItem(nomeCategoria);
         }
     }//GEN-LAST:event_jTableGerenciarMouseClicked
 
     private void b_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_EditarActionPerformed
         try {
-            // recebendo e validando dados da interface gráfica.
-
             int id = 0;
             String nome = "";
             double precoUn = 0;
@@ -433,7 +471,6 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             int quantidade = 0;
             int quantidadeMin = 0;
             int quantidadeMax = 0;
-            String categoria = "";
             quantidade = Integer.parseInt(this.c_QtdEstoque.getText());
             if (this.c_NomeProd.getText().length() < 2) {
                 throw new Mensagem("Nome deve conter ao menos 2 caracteres.");
@@ -460,17 +497,23 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             } else {
                 id = Integer.parseInt(this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 0).toString());
             }
-            // envia os dados para o Controlador cadastrar 
-            if (this.objetoProduto.updateProdutoBD(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoria)) {
+            unidade = this.cb_Unidade.getSelectedItem().toString();
+            int categoriaId = getIdCategoriaSelecionada();
+            if (categoriaId == -1) {
+                throw new Mensagem("Selecione uma categoria válida.");
+            }
+
+            // envia os dados para o DAO editar
+            if (this.objetoProduto.updateProdutoBD(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoriaId)) {
                 JOptionPane.showMessageDialog(null, "Produto Editado com Sucesso!");
-            } // limpa campos da interface 
+            } // limpa campos da interface
             this.c_NomeProd.setText("");
             this.c_PrecoUN.setText("");
-            this.cb_Unidade.setSelectedItem("");
+            this.cb_Unidade.setSelectedIndex(0);
             this.c_QtdEstoque.setText("");
             this.c_QtdMin.setText("");
             this.c_QtdMax.setText("");
-            this.cb_Categoria.setSelectedItem("");
+            this.cb_Categoria.setSelectedIndex(0);
 
         } catch (Mensagem erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
@@ -500,11 +543,11 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             // limpa os campos
                     this.c_NomeProd.setText("");
                     this.c_PrecoUN.setText("");
-                    this.cb_Unidade.setSelectedItem("");
+                    this.cb_Unidade.setSelectedIndex(0);
                     this.c_QtdEstoque.setText("");
                     this.c_QtdMin.setText("");
                     this.c_QtdMax.setText("");
-                    this.cb_Categoria.setSelectedItem("");
+                    this.cb_Categoria.setSelectedIndex(0);
                     JOptionPane.showMessageDialog(rootPane, "Produto Apagado com Sucesso!");
                 }
             }

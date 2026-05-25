@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS categorias (
     embalagem VARCHAR(20)  NOT NULL   -- valores: Lata, Vidro, Plástico
 );
 
--- Tabela de produtos (model: Produto.java — categoria referencia o id de categorias)
+-- Tabela de produtos (model: Produto.java)
 CREATE TABLE IF NOT EXISTS produtos (
     id                 INT            PRIMARY KEY AUTO_INCREMENT,
     nome               VARCHAR(100)   NOT NULL,

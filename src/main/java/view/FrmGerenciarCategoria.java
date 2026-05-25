@@ -262,6 +262,12 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             return;
         }
 
+        for (int i = 0; i < listaCategorias.size(); i++) {
+            if (listaCategorias.get(i).getNome().equalsIgnoreCase(nome) && i != linhaSelecionada) {
+                JOptionPane.showMessageDialog(null, "Já existe uma categoria com esse nome!");
+                return;
+            }
+        }
         model.Categoria cat = listaCategorias.get(linhaSelecionada);
         cat.setNome(nome);
         cat.setTamanho(tamanho);

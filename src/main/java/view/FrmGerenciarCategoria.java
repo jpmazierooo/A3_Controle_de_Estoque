@@ -191,9 +191,11 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
         if (confirmacao == JOptionPane.YES_OPTION) {
             try {
-                CategoriaDAO dao = new CategoriaDAO();
-                dao.deletar(id);
+                new CategoriaDAO().deletar(id);
                 JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
+                jBAlterarGC.setEnabled(false);
+                jBExcluirGC.setEnabled(false);
+                carregaTabela();
             } catch (DbException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao excluir: " + e.getMessage());
             }
@@ -232,7 +234,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
             if (nomeOk && tamanhoOk && embalagemOk) {
                 modelo.addRow(new Object[]{
-                    listaCategorias.indexOf(cat) + 1,
+                    cat.getId(),
                     cat.getNome(),
                     cat.getTamanho(),
                     cat.getEmbalagem()
@@ -262,26 +264,22 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             return;
         }
 
-        for (int i = 0; i < listaCategorias.size(); i++) {
-            if (listaCategorias.get(i).getNome().equalsIgnoreCase(nome)
-                    && listaCategorias.get(i).getTamanho().equalsIgnoreCase(tamanho)
-                    && listaCategorias.get(i).getEmbalagem().equalsIgnoreCase(embalagem)
-                    && i != linhaSelecionada) {
-                JOptionPane.showMessageDialog(null, "Já existe uma categoria com esse nome!");
-                return;
-            }
-        }
-        model.Categoria cat = listaCategorias.get(linhaSelecionada);
-        cat.setNome(nome);
-        cat.setTamanho(tamanho);
-        cat.setEmbalagem(embalagem);
+        int id = Integer.parseInt(jTable1.getValueAt(linhaSelecionada, 0).toString());
 
-        JOptionPane.showMessageDialog(null, "Categoria alterada com sucesso!");
+        try {
+            model.Categoria cat = new model.Categoria(id, nome, tamanho, embalagem);
+            new CategoriaDAO().atualizar(cat);
+            JOptionPane.showMessageDialog(null, "Categoria alterada com sucesso!");
+        } catch (DbException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar: " + e.getMessage());
+            return;
+        }
 
         this.jTFNomeCategoriaGC.setText("");
         this.jCBTipoTamanhoGC.setSelectedIndex(0);
         this.jCBTipoEmbalagemGC.setSelectedIndex(0);
-
+        jBAlterarGC.setEnabled(false);
+        jBExcluirGC.setEnabled(false);
         carregaTabela();
     }//GEN-LAST:event_jBAlterarGCActionPerformed
 
@@ -303,9 +301,14 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                 return;
             }
         }
-        model.Categoria cat = new model.Categoria(nome, tamanho, embalagem);
-        listaCategorias.add(cat);
-        JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso!");
+        try {
+            model.Categoria cat = new model.Categoria(nome, tamanho, embalagem);
+            new CategoriaDAO().inserir(cat);
+            JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso!");
+        } catch (DbException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + e.getMessage());
+            return;
+        }
 
         this.jTFNomeCategoriaGC.setText("");
         this.jCBTipoTamanhoGC.setSelectedIndex(0);
@@ -317,12 +320,9 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int linhaSelecionada = jTable1.getSelectedRow();
         if (linhaSelecionada != -1) {
-            model.Categoria cat = listaCategorias.get(linhaSelecionada);
-            this.jTFNomeCategoriaGC.setText(cat.getNome());
-            this.jCBTipoTamanhoGC.setSelectedItem(cat.getTamanho());
-            this.jCBTipoEmbalagemGC.setSelectedItem(cat.getEmbalagem());
-
-            // habilita os botões ao selecionar uma linha
+            this.jTFNomeCategoriaGC.setText(jTable1.getValueAt(linhaSelecionada, 1).toString());
+            this.jCBTipoTamanhoGC.setSelectedItem(jTable1.getValueAt(linhaSelecionada, 2).toString());
+            this.jCBTipoEmbalagemGC.setSelectedItem(jTable1.getValueAt(linhaSelecionada, 3).toString());
             jBAlterarGC.setEnabled(true);
             jBExcluirGC.setEnabled(true);
         }
@@ -353,7 +353,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmGerenciarCategoria().setVisible(true));
     }
-    private static java.util.ArrayList<model.Categoria> listaCategorias = new java.util.ArrayList<>();
+    private java.util.List<model.Categoria> listaCategorias = new java.util.ArrayList<>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBSalvarGC;
@@ -371,12 +371,17 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void carregaTabela() {
+        try {
+            listaCategorias = new CategoriaDAO().listarTodos();
+        } catch (DbException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar categorias: " + e.getMessage());
+            return;
+        }
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
-
         for (model.Categoria cat : listaCategorias) {
             modelo.addRow(new Object[]{
-                listaCategorias.indexOf(cat) + 1,
+                cat.getId(),
                 cat.getNome(),
                 cat.getTamanho(),
                 cat.getEmbalagem()

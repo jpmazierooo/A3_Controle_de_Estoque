@@ -262,7 +262,6 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             return;
         }
 
-      
         model.Categoria cat = listaCategorias.get(linhaSelecionada);
         cat.setNome(nome);
         cat.setTamanho(tamanho);
@@ -286,7 +285,13 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nome deve conter ao menos 2 caracteres.");
             return;
         }
-      
+
+        for (model.Categoria c : listaCategorias) {
+            if (c.getNome().equalsIgnoreCase(nome)) {
+                JOptionPane.showMessageDialog(null, "Já existe uma categoria com esse nome!");
+                return;
+            }
+        }
         model.Categoria cat = new model.Categoria(nome, tamanho, embalagem);
         listaCategorias.add(cat);
         JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso!");

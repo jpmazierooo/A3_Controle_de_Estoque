@@ -202,8 +202,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jCBTipoTamanhoGCActionPerformed
 
     private void jBVoltarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVoltarGCActionPerformed
-        FrmaMenuPrincipal janela = new FrmaMenuPrincipal();
-        janela.setVisible(true);
+
         this.dispose();
     }//GEN-LAST:event_jBVoltarGCActionPerformed
 
@@ -216,7 +215,31 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jTFNomeCategoriaGCActionPerformed
 
     private void jBBuscarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarGCActionPerformed
+        String nomeBusca = this.jTFNomeCategoriaGC.getText().toLowerCase();
+        String tamanhoBusca = this.jCBTipoTamanhoGC.getSelectedItem().toString();
+        String embalageBusca = this.jCBTipoEmbalagemGC.getSelectedItem().toString();
 
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
+
+        for (model.Categoria cat : listaCategorias) {
+            boolean nomeOk = nomeBusca.isEmpty() || cat.getNome().toLowerCase().contains(nomeBusca);
+            boolean tamanhoOk = tamanhoBusca.equals("Todos") || cat.getTamanho().equals(tamanhoBusca);
+            boolean embalagemOk = embalageBusca.equals("Todos") || cat.getEmbalagem().equals(embalageBusca);
+
+            if (nomeOk && tamanhoOk && embalagemOk) {
+                modelo.addRow(new Object[]{
+                    listaCategorias.indexOf(cat) + 1,
+                    cat.getNome(),
+                    cat.getTamanho(),
+                    cat.getEmbalagem()
+                });
+            }
+        }
+
+        if (modelo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Nenhuma categoria encontrada!");
+        }
     }//GEN-LAST:event_jBBuscarGCActionPerformed
 
     private void jBAlterarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarGCActionPerformed
@@ -306,7 +329,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmGerenciarCategoria().setVisible(true));
     }
-    private java.util.ArrayList<model.Categoria> listaCategorias = new java.util.ArrayList<>();
+    private static java.util.ArrayList<model.Categoria> listaCategorias = new java.util.ArrayList<>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBSalvarGC;

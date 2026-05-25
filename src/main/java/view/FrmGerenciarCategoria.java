@@ -263,7 +263,10 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         }
 
         for (int i = 0; i < listaCategorias.size(); i++) {
-            if (listaCategorias.get(i).getNome().equalsIgnoreCase(nome) && i != linhaSelecionada) {
+            if (listaCategorias.get(i).getNome().equalsIgnoreCase(nome)
+                    && listaCategorias.get(i).getTamanho().equalsIgnoreCase(tamanho)
+                    && listaCategorias.get(i).getEmbalagem().equalsIgnoreCase(embalagem)
+                    && i != linhaSelecionada) {
                 JOptionPane.showMessageDialog(null, "Já existe uma categoria com esse nome!");
                 return;
             }
@@ -293,7 +296,9 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         }
 
         for (model.Categoria c : listaCategorias) {
-            if (c.getNome().equalsIgnoreCase(nome)) {
+            if (c.getNome().equalsIgnoreCase(nome)
+                    && c.getTamanho().equalsIgnoreCase(tamanho)
+                    && c.getEmbalagem().equalsIgnoreCase(embalagem)) {
                 JOptionPane.showMessageDialog(null, "Já existe uma categoria com esse nome!");
                 return;
             }

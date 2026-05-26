@@ -48,3 +48,41 @@ Para auxiliar na tomada de decisão, o sistema deve gerar relatórios essenciais
 * Produtos com maior entrada e saída.
 
 O desenvolvimento será feito em grupo, utilizando como base um software modelo fornecido, e será evoluído ao longo do semestre, podendo receber ajustes e melhorias conforme novas demandas (issues) forem propostas.
+
+✅ Requisitos Funcionais
+RF01 - Gerenciamento de Produtos
+O sistema deve permitir cadastrar, consultar, alterar e excluir produtos.
+
+RF02 - Gerenciamento de Categorias
+O sistema deve permitir cadastrar e consultar categorias de produtos.
+
+RF03 - Controle de Estoque
+O sistema deve registrar entradas e saídas de produtos, atualizando automaticamente o estoque.
+
+RF04 - Alertas de Estoque
+O sistema deve informar quando a quantidade de produtos estiver abaixo do mínimo ou acima do máximo.
+
+RF05 - Reajuste de Preços
+O sistema deve permitir reajustar preços com base em percentual informado.
+
+RF06 - Geração de Relatórios
+O sistema deve gerar relatórios de produtos, balanço financeiro, produtos abaixo do mínimo e produtos por categoria.
+
+⚙️ Requisitos Não Funcionais
+RNF01 - Interface Gráfica
+O sistema deve possuir interface gráfica em Java Swing.
+
+RNF02 - Banco de Dados
+O sistema deve utilizar banco de dados relacional para armazenamento das informações.
+
+RNF03 - Exportação de Relatórios
+Os relatórios devem ser gerados em formato PDF.
+
+RNF04 - Compatibilidade
+O sistema deve funcionar em computadores com Java instalado.
+
+RNF05 - Organização do Projeto
+O sistema deve seguir o paradigma de orientação a objetos.
+
+🛠 Tecnologias Utilizadas
+Java 25 • Apache NetBeans 29 • MySQL 8.0 • Git • GitHub

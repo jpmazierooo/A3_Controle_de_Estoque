@@ -5,7 +5,7 @@ import dao.db.DbException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.Movimentacao;
+import modelo.Movimentacao;
 
 /**
  * Classe Data Access Object (DAO) para Movimentacao.

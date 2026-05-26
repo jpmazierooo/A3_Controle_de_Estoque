@@ -1,9 +1,9 @@
-package view;
+package visao;
 
 import dao.MovimentacaoDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import model.Movimentacao;
+import modelo.Movimentacao;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

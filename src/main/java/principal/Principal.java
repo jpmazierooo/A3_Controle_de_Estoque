@@ -1,7 +1,7 @@
-package main;
-import view.FrmaMenuPrincipal;
+package principal;
+import visao.FrmaMenuPrincipal;
 
-public class Main {
+public class Principal {
 
     public static void main(String[] args) {
         FrmaMenuPrincipal objetotela = new FrmaMenuPrincipal();

@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package visao;
 
-import model.Produto;
-import model.Categoria;
-import model.Movimentacao;
+import modelo.Produto;
+import modelo.Categoria;
+import modelo.Movimentacao;
 import dao.ProdutoDAO;
 import dao.CategoriaDAO;
 import dao.MovimentacaoDAO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import view.Mensagem;
+import visao.Mensagem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 

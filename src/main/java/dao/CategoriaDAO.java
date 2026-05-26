@@ -4,7 +4,7 @@
     import java.sql.*;
     import java.util.ArrayList;
     import java.util.List;
-    import model.Categoria;
+    import modelo.Categoria;
 
     public class CategoriaDAO {
         private Connection conn;

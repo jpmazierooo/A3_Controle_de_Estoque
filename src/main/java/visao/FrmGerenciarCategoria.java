@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package visao;
 
 import dao.CategoriaDAO;
 import dao.db.DbException;
 import javax.swing.JOptionPane;
-import model.Categoria;
+import modelo.Categoria;
 
 /**
  *
@@ -227,7 +227,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
 
-        for (model.Categoria cat : listaCategorias) {
+        for (modelo.Categoria cat : listaCategorias) {
             boolean nomeOk = nomeBusca.isEmpty() || cat.getNome().toLowerCase().contains(nomeBusca);
             boolean tamanhoOk = tamanhoBusca.equals("Todos") || cat.getTamanho().equals(tamanhoBusca);
             boolean embalagemOk = embalageBusca.equals("Todos") || cat.getEmbalagem().equals(embalageBusca);
@@ -267,7 +267,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         int id = Integer.parseInt(jTable1.getValueAt(linhaSelecionada, 0).toString());
 
         try {
-            model.Categoria cat = new model.Categoria(id, nome, tamanho, embalagem);
+            modelo.Categoria cat = new modelo.Categoria(id, nome, tamanho, embalagem);
             new CategoriaDAO().atualizar(cat);
             JOptionPane.showMessageDialog(null, "Categoria alterada com sucesso!");
         } catch (DbException e) {
@@ -293,7 +293,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             return;
         }
 
-        for (model.Categoria c : listaCategorias) {
+        for (modelo.Categoria c : listaCategorias) {
             if (c.getNome().equalsIgnoreCase(nome)
                     && c.getTamanho().equalsIgnoreCase(tamanho)
                     && c.getEmbalagem().equalsIgnoreCase(embalagem)) {
@@ -302,7 +302,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             }
         }
         try {
-            model.Categoria cat = new model.Categoria(nome, tamanho, embalagem);
+            modelo.Categoria cat = new modelo.Categoria(nome, tamanho, embalagem);
             new CategoriaDAO().inserir(cat);
             JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso!");
         } catch (DbException e) {
@@ -353,7 +353,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmGerenciarCategoria().setVisible(true));
     }
-    private java.util.List<model.Categoria> listaCategorias = new java.util.ArrayList<>();
+    private java.util.List<modelo.Categoria> listaCategorias = new java.util.ArrayList<>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBSalvarGC;
@@ -379,7 +379,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         }
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
-        for (model.Categoria cat : listaCategorias) {
+        for (modelo.Categoria cat : listaCategorias) {
             modelo.addRow(new Object[]{
                 cat.getId(),
                 cat.getNome(),

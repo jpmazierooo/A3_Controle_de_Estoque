@@ -4,7 +4,7 @@ import dao.db.Database;
 import dao.db.DbException;
 import java.sql.*;
 import java.util.ArrayList;
-import model.Produto;
+import modelo.Produto;
 
 /**
  * Classe Data Access Object (DAO) para o Produto.

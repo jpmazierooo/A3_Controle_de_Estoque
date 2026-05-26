@@ -49,6 +49,8 @@ Para auxiliar na tomada de decisão, o sistema deve gerar relatórios essenciais
 
 O desenvolvimento será feito em grupo, utilizando como base um software modelo fornecido, e será evoluído ao longo do semestre, podendo receber ajustes e melhorias conforme novas demandas (issues) forem propostas.
 
+---
+
 ✅ Requisitos Funcionais
 RF01 - Gerenciamento de Produtos
 O sistema deve permitir cadastrar, consultar, alterar e excluir produtos.
@@ -68,6 +70,8 @@ O sistema deve permitir reajustar preços com base em percentual informado.
 RF06 - Geração de Relatórios
 O sistema deve gerar relatórios de produtos, balanço financeiro, produtos abaixo do mínimo e produtos por categoria.
 
+---
+
 ⚙️ Requisitos Não Funcionais
 RNF01 - Interface Gráfica
 O sistema deve possuir interface gráfica em Java Swing.
@@ -83,6 +87,8 @@ O sistema deve funcionar em computadores com Java instalado.
 
 RNF05 - Organização do Projeto
 O sistema deve seguir o paradigma de orientação a objetos.
+
+---
 
 🛠 Tecnologias Utilizadas
 Java 25 • Apache NetBeans 29 • MySQL 8.0 • Git • GitHub

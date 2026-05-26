@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package visao;
 
 import modelo.Produto;
@@ -28,6 +25,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
     public FrmGerenciarProdutos() {
         initComponents();
+        setLocationRelativeTo(null);
         this.objetoProduto = new Produto();
         carregarCategorias();
         this.carregaTabela();

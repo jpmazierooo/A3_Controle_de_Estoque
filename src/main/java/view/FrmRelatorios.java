@@ -1,5 +1,12 @@
 package view;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 
 public class FrmRelatorios extends javax.swing.JFrame {
@@ -100,33 +107,79 @@ public class FrmRelatorios extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    String tipoRelatorio;
-    tipoRelatorio = jComboBox2.getSelectedItem().toString();
+    String tipoRelatorio = jComboBox2.getSelectedItem().toString();
 
-    
-    if(tipoRelatorio.equals("Lista de Preços")){
-    JOptionPane.showMessageDialog(this, "Gerando PDF da Lista de Preços"); 
-    
-   
-  } else if(tipoRelatorio.equals("Balanço Financeiro")) {
-   JOptionPane.showMessageDialog(this, "Gerando PDF do Balanço Financeiro");
-   
-  } else if(tipoRelatorio.equals("Estoque abaixo do minimo")) {
-   JOptionPane.showMessageDialog(this, "Gerando PDF dos Produtos abaixo do mínimo");
-   
-  } else if(tipoRelatorio.equals("Produto com maior entrada")){
-   JOptionPane.showMessageDialog(this, "Gerando PDF dos Produtos por categoria");
-   
-          
-  } else if(tipoRelatorio.equals("Produto com maior saida")){
-    JOptionPane.showMessageDialog(this, "Gerando PDF do Produto com maior entrada e saída");
-    } else {
+    try {
+        java.sql.Connection conn = dao.db.Database.getConnection();
+        String sql = "";
 
-        JOptionPane.showMessageDialog(this,
-                "Selecione um relatório válido");
-    
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if (tipoRelatorio.equals("Lista de Preços")) {
+        sql = "SELECT nome, preco_unitario FROM produtos";
+        } 
+        else if (tipoRelatorio.equals("Estoque abaixo do minimo")) {
+        sql = "SELECT nome, quantidade_estoque, quantidade_minima FROM produtos WHERE quantidade_estoque < quantidade_minima";
+        } 
+        else {
+        JOptionPane.showMessageDialog(this, "Relatório ainda não implementado");
+        return;
+        }
+
+        java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+        java.sql.ResultSet rs = stmt.executeQuery();
+
+        org.apache.pdfbox.pdmodel.PDDocument document = new org.apache.pdfbox.pdmodel.PDDocument();
+        org.apache.pdfbox.pdmodel.PDPage page = new org.apache.pdfbox.pdmodel.PDPage();
+        document.addPage(page);
+
+        org.apache.pdfbox.pdmodel.PDPageContentStream content =
+        new org.apache.pdfbox.pdmodel.PDPageContentStream(document, page);
+
+        content.beginText();
+        content.setFont(org.apache.pdfbox.pdmodel.font.PDType1Font.HELVETICA_BOLD, 14);
+        content.newLineAtOffset(50, 750);
+        content.showText("RELATÓRIO: " + tipoRelatorio);
+        content.endText();
+
+        int y = 700;
+
+        while (rs.next()) {
+
+            content.beginText();
+            content.setFont(org.apache.pdfbox.pdmodel.font.PDType1Font.HELVETICA, 12);
+            content.newLineAtOffset(50, y);
+
+            String linha = rs.getString(1);
+
+            if (tipoRelatorio.equals("Lista de Preços")) {
+                linha += " - R$ " + rs.getDouble(2);
+            }
+
+            if (tipoRelatorio.equals("Estoque abaixo do minimo")) {
+                linha += " | Estoque: " + rs.getInt(2) +
+                         " | Min: " + rs.getInt(3);
+            }
+
+            content.showText(linha);
+            content.endText();
+
+            y -= 20;
+        }
+
+        content.close();
+        document.save(tipoRelatorio + ".pdf");
+        document.close();
+
+        rs.close();
+        stmt.close();
+
+        JOptionPane.showMessageDialog(this, "PDF gerado com sucesso!");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Erro ao gerar PDF: " + e.getMessage());
+        e.printStackTrace();
     }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -149,7 +202,7 @@ public class FrmRelatorios extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmRelatorios().setVisible(true));
+     java.awt.EventQueue.invokeLater(() -> new FrmRelatorios().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

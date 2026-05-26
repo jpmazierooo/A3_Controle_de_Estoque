@@ -6,8 +6,11 @@ package view;
 
 import model.Produto;
 import model.Categoria;
+import model.Movimentacao;
 import dao.ProdutoDAO;
 import dao.CategoriaDAO;
+import dao.MovimentacaoDAO;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import view.Mensagem;
@@ -28,6 +31,88 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         this.objetoProduto = new Produto();
         carregarCategorias();
         this.carregaTabela();
+        b_Entrada.addActionListener(this::b_EntradaActionPerformed);
+    }
+
+    /**
+     * Lógica comum de Entrada e Saída: valida, atualiza estoque, registra movimentação e exibe avisos.
+     *
+     * @param tipoMovimentacao "Entrada" ou "Saida"
+     */
+    private void processarMovimentacao(String tipoMovimentacao) {
+        int linhaSelecionada = jTableGerenciar.getSelectedRow();
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto na tabela.");
+            return;
+        }
+        String qtdTexto = jTextField1.getText().trim();
+        if (qtdTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe a quantidade no campo ao lado.");
+            return;
+        }
+        int qtd;
+        try {
+            qtd = Integer.parseInt(qtdTexto);
+            if (qtd <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Quantidade deve ser um número maior que zero.");
+            return;
+        }
+
+        int id              = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 0).toString());
+        String nome         = jTableGerenciar.getValueAt(linhaSelecionada, 1).toString();
+        int quantidadeAtual = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 4).toString());
+        int quantidadeMin   = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 5).toString());
+        int quantidadeMax   = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 6).toString());
+        String categoria    = jTableGerenciar.getValueAt(linhaSelecionada, 7).toString();
+
+        int novaQuantidade;
+        if (tipoMovimentacao.equals("Entrada")) {
+            novaQuantidade = quantidadeAtual + qtd;
+        } else {
+            novaQuantidade = quantidadeAtual - qtd;
+            if (novaQuantidade < 0) {
+                JOptionPane.showMessageDialog(null, "Estoque insuficiente para essa saída.");
+                return;
+            }
+        }
+
+        String statusEstoque;
+        String aviso = null;
+        if (tipoMovimentacao.equals("Entrada") && novaQuantidade > quantidadeMax) {
+            statusEstoque = "Acima do maximo";
+            aviso = "Atenção: estoque acima da quantidade máxima após essa entrada!";
+        } else if (tipoMovimentacao.equals("Saida") && novaQuantidade < quantidadeMin) {
+            statusEstoque = "Abaixo do minimo";
+            aviso = "Atenção: estoque abaixo da quantidade mínima após essa saída!";
+        } else {
+            statusEstoque = "Estoque normal";
+        }
+
+        try {
+            new ProdutoDAO().atualizarQuantidade(id, novaQuantidade);
+
+            Movimentacao mov = new Movimentacao(
+                0, nome, categoria, qtd,
+                LocalDate.now().toString(),
+                tipoMovimentacao, statusEstoque
+            );
+            new MovimentacaoDAO().inserir(mov);
+
+            if (aviso != null) {
+                JOptionPane.showMessageDialog(null, aviso, "Aviso de Estoque", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, tipoMovimentacao + " registrada com sucesso!");
+            }
+            jTextField1.setText("");
+            carregaTabela();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao registrar movimentação: " + e.getMessage());
+        }
+    }
+
+    private void b_EntradaActionPerformed(java.awt.event.ActionEvent evt) {
+        processarMovimentacao("Entrada");
     }
 
     /** Carrega as categorias do banco e popula o ComboBox. */
@@ -376,7 +461,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void b_SaídaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_SaídaActionPerformed
-        // TODO add your handling code here:
+        processarMovimentacao("Saida");
     }//GEN-LAST:event_b_SaídaActionPerformed
 
     private void c_NomeProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_NomeProdActionPerformed

@@ -37,26 +37,22 @@ public class FrmMovimentacao extends javax.swing.JFrame {
     }
 
     private void carregarTabela() {
-
-        DefaultTableModel modelo
-                = (DefaultTableModel) jTable3.getModel();
-
+        DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel();
         modelo.setRowCount(0);
-
-        List<Movimentacao> lista
-                = movimentacaoDAO.listarMovimentacoes();
-
-        for (Movimentacao m : lista) {
-
-            modelo.addRow(new Object[]{
-                m.getNome(),
-                m.getId(),
-                m.getTipo(),
-                m.getQtd(),
-                m.getData(),
-                m.getMovimentacao(),
-                m.getStatusEstoque()
-            });
+        try {
+            for (Movimentacao m : movimentacaoDAO.listarMovimentacoes()) {
+                modelo.addRow(new Object[]{
+                    m.getNome(),
+                    m.getId(),
+                    m.getTipo(),
+                    m.getQtd(),
+                    m.getData(),
+                    m.getMovimentacao(),
+                    m.getStatusEstoque()
+                });
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Erro ao carregar movimentações: " + e.getMessage());
         }
     }
 

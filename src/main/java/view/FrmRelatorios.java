@@ -18,6 +18,7 @@ public class FrmRelatorios extends javax.swing.JFrame {
      */
     public FrmRelatorios() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

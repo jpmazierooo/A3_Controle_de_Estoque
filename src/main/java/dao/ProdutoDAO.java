@@ -115,6 +115,24 @@ public class ProdutoDAO {
         return new ProdutoDAO().listarTodos();
     }
 
+    /**
+     * Atualiza apenas a quantidade em estoque de um produto.
+     * Usado pelas operações de Entrada e Saída.
+     *
+     * @param id              ID do produto.
+     * @param novaQuantidade  Nova quantidade em estoque.
+     */
+    public void atualizarQuantidade(int id, int novaQuantidade) {
+        String sql = "UPDATE produtos SET quantidade_estoque = ? WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, novaQuantidade);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
     /** Não utilizado com JDBC (AUTO_INCREMENT). Mantido para compatibilidade. */
     public static int maiorID() {
         return 0;

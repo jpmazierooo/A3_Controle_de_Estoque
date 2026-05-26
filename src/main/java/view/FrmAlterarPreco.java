@@ -4,6 +4,14 @@
  */
 package view;
 
+import dao.CategoriaDAO;
+import dao.ProdutoDAO;
+import dao.db.DbException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import model.Categoria;
+
 /**
  *
  * @author João Pedro Maziero
@@ -12,12 +20,77 @@ public class FrmAlterarPreco extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmAlterarPreco.class.getName());
 
-    /**
-     * Creates new form FrmReajustePreco
-     */
+    private List<Categoria> categorias = new ArrayList<>();
+
     public FrmAlterarPreco() {
         initComponents();
         setLocationRelativeTo(null);
+        carregarCategorias();
+        b_Aumentar.addActionListener(this::b_AumentarActionPerformed);
+    }
+
+    /** Carrega categorias do banco e popula o ComboBox, com opção "Todas" no início. */
+    private void carregarCategorias() {
+        try {
+            categorias = new CategoriaDAO().listarTodos();
+            cb_categoria.removeAllItems();
+            cb_categoria.addItem("Todas");
+            for (Categoria c : categorias) {
+                cb_categoria.addItem(c.getNome());
+            }
+        } catch (DbException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar categorias: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Lógica comum de reajuste: valida o percentual e chama o DAO.
+     *
+     * @param aumentar {@code true} para aumento, {@code false} para desconto.
+     */
+    private void processarReajuste(boolean aumentar) {
+        String texto = c_porcentagem.getText().trim();
+        if (texto.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe o percentual.");
+            return;
+        }
+        double percentual;
+        try {
+            percentual = Double.parseDouble(texto.replace(",", "."));
+            if (percentual <= 0 || percentual > 100) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Percentual inválido. Use um número entre 0 e 100.");
+            return;
+        }
+
+        double fator = aumentar ? (1 + percentual / 100) : (1 - percentual / 100);
+
+        // índice 0 = "Todas"; índices 1..n = categorias[i-1]
+        int selectedIndex = cb_categoria.getSelectedIndex();
+        int categoriaId = selectedIndex == 0 ? -1 : categorias.get(selectedIndex - 1).getId();
+
+        String escopo = selectedIndex == 0 ? "todos os produtos" : "produtos da categoria \"" + cb_categoria.getSelectedItem() + "\"";
+        String operacao = aumentar ? "Aumentar" : "Descontar";
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+            null,
+            operacao + " " + percentual + "% em " + escopo + "?",
+            "Confirmar reajuste",
+            JOptionPane.YES_NO_OPTION
+        );
+        if (confirmacao != JOptionPane.YES_OPTION) return;
+
+        try {
+            new ProdutoDAO().reajustarPrecos(fator, categoriaId);
+            JOptionPane.showMessageDialog(null, "Preços atualizados com sucesso!");
+            c_porcentagem.setText("");
+        } catch (DbException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar preços: " + e.getMessage());
+        }
+    }
+
+    private void b_AumentarActionPerformed(java.awt.event.ActionEvent evt) {
+        processarReajuste(true);
     }
 
     /**
@@ -110,7 +183,7 @@ public class FrmAlterarPreco extends javax.swing.JFrame {
     }//GEN-LAST:event_b_SairActionPerformed
 
     private void b_DescontarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_DescontarActionPerformed
-        // TODO add your handling code here:
+        processarReajuste(false);
     }//GEN-LAST:event_b_DescontarActionPerformed
 
     /**

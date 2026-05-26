@@ -133,6 +133,28 @@ public class ProdutoDAO {
         }
     }
 
+    /**
+     * Reajusta o preço unitário de todos os produtos ou apenas de uma categoria.
+     * O preço é multiplicado pelo fator informado e arredondado em 2 casas decimais.
+     *
+     * @param fator       Multiplicador (ex: 1.10 para +10%, 0.90 para -10%).
+     * @param categoriaId ID da categoria a filtrar, ou -1 para todos os produtos.
+     */
+    public void reajustarPrecos(double fator, int categoriaId) {
+        String sql = categoriaId == -1
+            ? "UPDATE produtos SET preco_unitario = ROUND(preco_unitario * ?, 2)"
+            : "UPDATE produtos SET preco_unitario = ROUND(preco_unitario * ?, 2) WHERE categoria_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, fator);
+            if (categoriaId != -1) {
+                stmt.setInt(2, categoriaId);
+            }
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
     /** Não utilizado com JDBC (AUTO_INCREMENT). Mantido para compatibilidade. */
     public static int maiorID() {
         return 0;

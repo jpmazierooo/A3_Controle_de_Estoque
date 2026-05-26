@@ -114,11 +114,21 @@ public class FrmRelatorios extends javax.swing.JFrame {
         String sql = "";
 
         if (tipoRelatorio.equals("Lista de Preços")) {
-        sql = "SELECT nome, preco_unitario FROM produtos";
+        sql = "SELECT nome, preco_unitario FROM produtos ORDER BY nome ASC";
         } 
         else if (tipoRelatorio.equals("Estoque abaixo do minimo")) {
         sql = "SELECT nome, quantidade_estoque, quantidade_minima FROM produtos WHERE quantidade_estoque < quantidade_minima";
-        } 
+        }
+        else if (tipoRelatorio.equals("Produto com maior entrada")) {
+        sql = "SELECT nome, SUM(qtd) AS total_entrada FROM movimentacoes WHERE movimentacao = 'Entrada' GROUP BY nome ORDER BY total_entrada DESC";
+        }
+        else if (tipoRelatorio.equals("Produto com maior saida")) {
+        sql = "SELECT nome, SUM(qtd) AS total_saida FROM movimentacoes WHERE movimentacao = 'Saida' GROUP BY nome ORDER BY total_saida DESC";
+        }
+        else if (tipoRelatorio.equals("Balanço Financeiro")) {
+        sql = "SELECT nome, preco_unitario, quantidade_estoque, (preco_unitario * quantidade_estoque) AS total FROM produtos ORDER BY nome ASC";
+        }
+        
         else {
         JOptionPane.showMessageDialog(this, "Relatório ainda não implementado");
         return;
@@ -158,7 +168,21 @@ public class FrmRelatorios extends javax.swing.JFrame {
                 linha += " | Estoque: " + rs.getInt(2) +
                          " | Min: " + rs.getInt(3);
             }
+            
+            if (tipoRelatorio.equals("Produto com maior entrada")) {
+                linha += " | Total Entrada: " + rs.getInt(2);
+            }
+            
+            if (tipoRelatorio.equals("Produto com maior saida")) {
+                 linha += " | Total Saída: " + rs.getInt(2);
+            }
+            if (tipoRelatorio.equals("Balanço Financeiro")) {
 
+                linha += " | Preço: R$ " + rs.getDouble(2)
+                 + " | Estoque: " + rs.getInt(3)
+                 + " | Total: R$ " + rs.getDouble(4);
+            }
+            
             content.showText(linha);
             content.endText();
 

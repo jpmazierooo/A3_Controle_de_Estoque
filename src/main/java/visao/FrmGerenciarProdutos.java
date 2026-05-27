@@ -1,4 +1,3 @@
-
 package visao;
 
 import modelo.Produto;
@@ -16,23 +15,29 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Interface gráfica responsável pelo gerenciamento de produtos do sistema.
- * Permite realizar o cadastro, edição, exclusão, listagem de produtos,
- * além do controle de entrada e saída do estoque com validações de limites mínimos e máximos.
- * 
+ * Permite realizar o cadastro, edição, exclusão, listagem de produtos, além do
+ * controle de entrada e saída do estoque com validações de limites mínimos e
+ * máximos.
+ *
  * @author João Pedro Maziero
  */
 public class FrmGerenciarProdutos extends javax.swing.JFrame {
-    
-    /** Objeto de modelo utilizado para interagir com os dados e listas de produtos. */
-    private Produto objetoProduto;
-    
-    /** Lista em cache que armazena as categorias cadastradas no sistema. */
-    private List<Categoria> categorias = new ArrayList<>();
-    
+
     /**
-     * Construtor padrão da interface.
-     * Inicializa os componentes do formulário, centraliza a janela no meio da tela,
-     * instancia o objeto do modelo e popula os dados iniciais de categorias e tabela.
+     * Objeto de modelo utilizado para interagir com os dados e listas de
+     * produtos.
+     */
+    private Produto objetoProduto;
+
+    /**
+     * Lista em cache que armazena as categorias cadastradas no sistema.
+     */
+    private List<Categoria> categorias = new ArrayList<>();
+
+    /**
+     * Construtor padrão da interface. Inicializa os componentes do formulário,
+     * centraliza a janela no meio da tela, instancia o objeto do modelo e
+     * popula os dados iniciais de categorias e tabela.
      */
     public FrmGerenciarProdutos() {
         initComponents();
@@ -44,7 +49,8 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     }
 
     /**
-     * Lógica comum de Entrada e Saída: valida, atualiza estoque, registra movimentação e exibe avisos.
+     * Lógica comum de Entrada e Saída: valida, atualiza estoque, registra
+     * movimentação e exibe avisos.
      *
      * @param tipoMovimentacao "Entrada" ou "Saida"
      */
@@ -62,18 +68,20 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         int qtd;
         try {
             qtd = Integer.parseInt(qtdTexto);
-            if (qtd <= 0) throw new NumberFormatException();
+            if (qtd <= 0) {
+                throw new NumberFormatException();
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Quantidade deve ser um número maior que zero.");
             return;
         }
 
-        int id              = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 0).toString());
-        String nome         = jTableGerenciar.getValueAt(linhaSelecionada, 1).toString();
+        int id = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 0).toString());
+        String nome = jTableGerenciar.getValueAt(linhaSelecionada, 1).toString();
         int quantidadeAtual = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 4).toString());
-        int quantidadeMin   = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 5).toString());
-        int quantidadeMax   = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 6).toString());
-        String categoria    = jTableGerenciar.getValueAt(linhaSelecionada, 7).toString();
+        int quantidadeMin = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 5).toString());
+        int quantidadeMax = Integer.parseInt(jTableGerenciar.getValueAt(linhaSelecionada, 6).toString());
+        String categoria = jTableGerenciar.getValueAt(linhaSelecionada, 7).toString();
 
         int novaQuantidade;
         if (tipoMovimentacao.equals("Entrada")) {
@@ -102,9 +110,9 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             new ProdutoDAO().atualizarQuantidade(id, novaQuantidade);
 
             Movimentacao mov = new Movimentacao(
-                0, nome, categoria, qtd,
-                LocalDate.now().toString(),
-                tipoMovimentacao, statusEstoque
+                    0, nome, categoria, qtd,
+                    LocalDate.now().toString(),
+                    tipoMovimentacao, statusEstoque
             );
             new MovimentacaoDAO().inserir(mov);
 
@@ -119,19 +127,19 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao registrar movimentação: " + e.getMessage());
         }
     }
-    
+
     /**
      * Manipulador de evento para o clique no botão de Entrada de Estoque.
-     * 
+     *
      * @param evt O evento de ação gerado pelo botão.
      */
     private void b_EntradaActionPerformed(java.awt.event.ActionEvent evt) {
         processarMovimentacao("Entrada");
     }
 
-    /** 
-     * Carrega a lista de categorias do banco de dados através do CategoriaDAO 
-     * e popula o componente visual ComboBox de categorias.
+    /**
+     * Carrega a lista de categorias do banco de dados através do CategoriaDAO e
+     * popula o componente visual ComboBox de categorias.
      */
     private void carregarCategorias() {
         try {
@@ -145,10 +153,11 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         }
     }
 
-    /** 
-     * Retorna o nome da categoria com base no ID fornecido buscando na lista em cache.
-     * Caso o ID não seja encontrado na lista local, retorna a representação textual do próprio ID.
-     * 
+    /**
+     * Retorna o nome da categoria com base no ID fornecido buscando na lista em
+     * cache. Caso o ID não seja encontrado na lista local, retorna a
+     * representação textual do próprio ID.
+     *
      * @param id O identificador numérico da categoria.
      * @return O nome correspondente da categoria ou o ID convertido em string.
      */
@@ -161,10 +170,12 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         return String.valueOf(id);
     }
 
-    /** 
-     * Recupera o ID da categoria que se encontra atualmente selecionada no ComboBox.
-     * 
-     * @return O ID da categoria selecionada, ou -1 se nenhuma seleção for válida.
+    /**
+     * Recupera o ID da categoria que se encontra atualmente selecionada no
+     * ComboBox.
+     *
+     * @return O ID da categoria selecionada, ou -1 se nenhuma seleção for
+     * válida.
      */
     private int getIdCategoriaSelecionada() {
         int idx = cb_Categoria.getSelectedIndex();
@@ -173,7 +184,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         }
         return -1;
     }
-    
+
     /**
      * Inicializa alternativamente o formulário de gerenciamento de produtos.
      * Reinicializa os componentes e limpa/instancia um novo modelo de Produto.
@@ -182,11 +193,12 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         initComponents();
         this.objetoProduto = new Produto();
     }
-    
+
     /**
-     * Limpa as linhas atuais e atualiza os dados da tabela visual (`jTableGerenciar`).
-     * Consome os dados da lista retornada pelo modelo e converte as chaves estrangeiras 
-     * de categorias em nomes amigáveis para exibição.
+     * Limpa as linhas atuais e atualiza os dados da tabela visual
+     * (`jTableGerenciar`). Consome os dados da lista retornada pelo modelo e
+     * converte as chaves estrangeiras de categorias em nomes amigáveis para
+     * exibição.
      */
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTableGerenciar.getModel();
@@ -207,7 +219,6 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGerenciarProdutos.class.getName());
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -480,9 +491,10 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     private void cb_UnidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_UnidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_UnidadeActionPerformed
-    /** 
-     * Fecha a janela de gerenciamento de produtos atual liberando seus recursos.
-     * 
+    /**
+     * Fecha a janela de gerenciamento de produtos atual liberando seus
+     * recursos.
+     *
      * @param evt O evento de clique gerado pelo botão "Sair".
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -492,10 +504,10 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-    
-    /** 
+
+    /**
      * Dispara o processamento de uma movimentação com a flag de "Saida".
-     * 
+     *
      * @param evt O evento de clique do botão "Saída".
      */
     private void b_SaídaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_SaídaActionPerformed
@@ -505,12 +517,13 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
     private void c_NomeProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_c_NomeProdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_c_NomeProdActionPerformed
-    
+
     /**
-     * Captura os dados da tela gráfica, executa as validações de consistência e tamanho de strings,
-     * e chama o método de inserção de produto no banco de dados através da classe de modelo.
-     * Limpa os campos da tela se a operação for bem-sucedida.
-     * 
+     * Captura os dados da tela gráfica, executa as validações de consistência e
+     * tamanho de strings, e chama o método de inserção de produto no banco de
+     * dados através da classe de modelo. Limpa os campos da tela se a operação
+     * for bem-sucedida.
+     *
      * @param evt O evento de clique associado ao botão "Cadastrar".
      */
     private void b_CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_CadastrarActionPerformed
@@ -527,6 +540,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             } else {
                 nome = this.c_NomeProd.getText();
             }
+
             if (this.c_PrecoUN.getText().length() <= 0) {
                 throw new Mensagem("O Preço Unitário deve ser número e maior que zero.");
             } else {
@@ -547,7 +561,15 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             if (categoriaId == -1) {
                 throw new Mensagem("Selecione uma categoria válida.");
             }
-
+            ArrayList<Produto> listaAtual = objetoProduto.getMinhaLista();
+            for (Produto p : listaAtual) {
+                if (p.getNome().equalsIgnoreCase(nome)
+                        && p.getUnidade().equalsIgnoreCase(unidade)
+                        && p.getCategoriaId() == categoriaId) {
+                    JOptionPane.showMessageDialog(null, "Já existe um produto com esse nome, unidade e categoria!");
+                    return;
+                }
+            }
             // envia os dados para o DAO cadastrar
             if (this.objetoProduto.insertProdutoBD(nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoriaId)) {
                 JOptionPane.showMessageDialog(null, "Produto Cadastrado com Sucesso!");
@@ -569,15 +591,17 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_b_CadastrarActionPerformed
-    
+
     /**
      * Detecta a linha selecionada na tabela quando o usuário clica com o mouse,
-     * recupera as informações das colunas e preenche automaticamente os campos de entrada do formulário.
-     * 
-     * @param evt O evento de clique de mouse gerado pela tabela `jTableGerenciar`.
+     * recupera as informações das colunas e preenche automaticamente os campos
+     * de entrada do formulário.
+     *
+     * @param evt O evento de clique de mouse gerado pela tabela
+     * `jTableGerenciar`.
      */
     private void jTableGerenciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableGerenciarMouseClicked
-                if (this.jTableGerenciar.getSelectedRow() != -1) {
+        if (this.jTableGerenciar.getSelectedRow() != -1) {
             String nome = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 1).toString();
             String precoUn = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 2).toString();
             String unidade = this.jTableGerenciar.getValueAt(this.jTableGerenciar.getSelectedRow(), 3).toString();
@@ -596,11 +620,12 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             this.cb_Categoria.setSelectedItem(nomeCategoria);
         }
     }//GEN-LAST:event_jTableGerenciarMouseClicked
-    
+
     /**
-     * Resgata as informações atualizadas dos campos de texto, valida as regras de negócio
-     * e o ID do produto baseado na linha ativa da tabela, repassando o comando de alteração para o BD.
-     * 
+     * Resgata as informações atualizadas dos campos de texto, valida as regras
+     * de negócio e o ID do produto baseado na linha ativa da tabela, repassando
+     * o comando de alteração para o BD.
+     *
      * @param evt O evento de clique originado do botão "Editar".
      */
     private void b_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_EditarActionPerformed
@@ -665,11 +690,12 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_b_EditarActionPerformed
-    
+
     /**
-     * Obtém o identificador numérico da linha selecionada na tabela e exibe uma caixa de diálogo
-     * para confirmação de deleção. Executa o comando de deleção no banco e limpa os controles.
-     * 
+     * Obtém o identificador numérico da linha selecionada na tabela e exibe uma
+     * caixa de diálogo para confirmação de deleção. Executa o comando de
+     * deleção no banco e limpa os controles.
+     *
      * @param evt O evento de clique gerado pelo botão "Apagar".
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -684,10 +710,10 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             // retorna 0 -> primeiro botão | 1 -> segundo botão | 2 -> terceiro botão
             int respostaUsuario = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja apagar este Produto ?");
             if (respostaUsuario == 0) {
-            // clicou em SIM
-            // envia os dados para o Aluno processar
+                // clicou em SIM
+                // envia os dados para o Aluno processar
                 if (this.objetoProduto.deleteProdutoBD(id)) {
-            // limpa os campos
+                    // limpa os campos
                     this.c_NomeProd.setText("");
                     this.c_PrecoUN.setText("");
                     this.cb_Unidade.setSelectedIndex(0);

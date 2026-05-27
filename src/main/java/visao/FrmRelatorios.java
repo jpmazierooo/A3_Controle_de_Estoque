@@ -210,7 +210,9 @@ public class FrmRelatorios extends javax.swing.JFrame {
         }
 
         content.close();
-        document.save(tipoRelatorio + ".pdf");
+        
+        String downloads = System.getProperty("user.home") + "/Downloads/";
+        document.save(downloads + tipoRelatorio + ".pdf");
         document.close();
 
         rs.close();

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package visao;
 
 import dao.CategoriaDAO;
@@ -10,15 +6,23 @@ import javax.swing.JOptionPane;
 import modelo.Categoria;
 
 /**
+ * Tela de gerenciamento de categorias do sistema de estoque.
+ * <p>
+ * Permite ao usuário cadastrar, alterar, excluir e buscar categorias. Os dados
+ * são carregados do banco de dados via {@link CategoriaDAO} e exibidos em uma
+ * tabela interativa.
+ * </p>
  *
- * @author pedro
+ * @author Pedro Henrique
  */
 public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGerenciarCategoria.class.getName());
 
     /**
-     * Creates new form FrmGerenciarCategoria
+     * Construtor da tela de Gerenciar Categorias. Inicializa os componentes,
+     * centraliza a tela, desabilita os botões Alterar e Excluir e carrega os
+     * dados da tabela.
      */
     public FrmGerenciarCategoria() {
         initComponents();
@@ -105,62 +109,71 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(158, 158, 158)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBBuscarGC)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(90, 90, 90)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(166, 166, 166)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBNovoGC)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JBSalvarGC)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBAlterarGC)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBExcluirGC)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBVoltarGC)
-                        .addGap(213, 213, 213))))
+                        .addContainerGap(166, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBNovoGC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JBSalvarGC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBAlterarGC)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBExcluirGC))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jBBuscarGC, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)))))
+                .addGap(26, 26, 26)
+                .addComponent(jBVoltarGC)
+                .addGap(70, 70, 70))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
+                .addContainerGap()
                 .addComponent(jLGerenciarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBBuscarGC, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBNovoGC)
+                    .addComponent(JBSalvarGC)
                     .addComponent(jBAlterarGC)
                     .addComponent(jBExcluirGC)
-                    .addComponent(jBVoltarGC)
-                    .addComponent(jBNovoGC)
-                    .addComponent(JBSalvarGC))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCBTipoTamanhoGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBTipoEmbalagemGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFNomeCategoriaGC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBBuscarGC))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(jBVoltarGC))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+  /**
+     * Limpa todos os campos do formulário e desabilita os botões Alterar e
+     * Excluir. Move o foco para o campo Nome, deixando a tela pronta para um
+     * novo cadastro.
+     *
+     * @param evt evento de clique no botão Novo
+     */
     private void jBNovoGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoGCActionPerformed
         this.jTFNomeCategoriaGC.setText("");
         this.jCBTipoTamanhoGC.setSelectedIndex(0);
@@ -169,17 +182,21 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         jBAlterarGC.setEnabled(false); // desabilita ao limpar
         jBExcluirGC.setEnabled(false); // desabilita ao limpar
     }//GEN-LAST:event_jBNovoGCActionPerformed
-
+    /**
+     * Exclui a categoria selecionada na tabela após confirmação do usuário.
+     * Solicita confirmação antes de executar a exclusão no banco de dados.
+     * Recarrega a tabela e desabilita os botões Alterar e Excluir após excluir.
+     *
+     * @param evt evento de clique no botão Excluir
+     */
     private void jBExcluirGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirGCActionPerformed
         int linhaSelecionada = jTable1.getSelectedRow();
 
-        // Verifica se alguma linha foi selecionada
         if (linhaSelecionada == -1) {
             JOptionPane.showMessageDialog(null, "Selecione uma categoria na tabela!");
             return;
         }
 
-        // Pega o id da linha selecionada (coluna 0 = ID)
         int id = Integer.parseInt(jTable1.getValueAt(linhaSelecionada, 0).toString());
 
         int confirmacao = JOptionPane.showConfirmDialog(
@@ -201,24 +218,44 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jBExcluirGCActionPerformed
-
+    /**
+     * @param evt evento do ComboBox de tamanho
+     */
     private void jCBTipoTamanhoGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoTamanhoGCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCBTipoTamanhoGCActionPerformed
-
+    /**
+     * Fecha a tela atual e retorna ao menu principal.
+     *
+     * @param evt evento de clique no botão Voltar
+     */
     private void jBVoltarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVoltarGCActionPerformed
 
         this.dispose();
     }//GEN-LAST:event_jBVoltarGCActionPerformed
-
+    /**
+     * @param evt evento do ComboBox de embalagem
+     */
     private void jCBTipoEmbalagemGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoEmbalagemGCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCBTipoEmbalagemGCActionPerformed
-
+    /**
+     * @param evt evento do campo de texto Nome
+     */
     private void jTFNomeCategoriaGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNomeCategoriaGCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFNomeCategoriaGCActionPerformed
-
+    /**
+     * Filtra as categorias exibidas na tabela com base nos critérios
+     * informados.
+     * <p>
+     * A busca por nome é parcial e sem distinção de maiúsculas/minúsculas. Os
+     * filtros de tamanho e embalagem são ignorados quando a opção "Todos" está
+     * selecionada. Exibe mensagem caso nenhuma categoria seja encontrada.
+     * </p>
+     *
+     * @param evt evento de clique no botão Buscar
+     */
     private void jBBuscarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarGCActionPerformed
         String nomeBusca = this.jTFNomeCategoriaGC.getText().toLowerCase();
         String tamanhoBusca = this.jCBTipoTamanhoGC.getSelectedItem().toString();
@@ -246,7 +283,17 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhuma categoria encontrada!");
         }
     }//GEN-LAST:event_jBBuscarGCActionPerformed
-
+    /**
+     * Altera os dados da categoria selecionada na tabela.
+     * <p>
+     * Valida se uma linha está selecionada e se o nome tem ao menos 2
+     * caracteres. Verifica se já existe outra categoria com os mesmos dados
+     * antes de alterar. Atualiza o registro no banco de dados via
+     * {@link CategoriaDAO}.
+     * </p>
+     *
+     * @param evt evento de clique no botão Alterar
+     */
     private void jBAlterarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarGCActionPerformed
         int linhaSelecionada = jTable1.getSelectedRow();
 
@@ -282,7 +329,16 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         jBExcluirGC.setEnabled(false);
         carregaTabela();
     }//GEN-LAST:event_jBAlterarGCActionPerformed
-
+    /**
+     * Cadastra uma nova categoria no banco de dados.
+     * <p>
+     * Valida se o nome tem ao menos 2 caracteres e verifica duplicatas
+     * considerando nome, tamanho e embalagem em conjunto antes de salvar.
+     * Recarrega a tabela após o cadastro bem sucedido.
+     * </p>
+     *
+     * @param evt evento de clique no botão Salvar
+     */
     private void JBSalvarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBSalvarGCActionPerformed
         String nome = this.jTFNomeCategoriaGC.getText();
         String tamanho = this.jCBTipoTamanhoGC.getSelectedItem().toString();
@@ -316,7 +372,12 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
         carregaTabela();
     }//GEN-LAST:event_JBSalvarGCActionPerformed
-
+    /**
+     * Preenche os campos do formulário com os dados da linha selecionada na
+     * tabela. Habilita os botões Alterar e Excluir ao selecionar uma linha.
+     *
+     * @param evt evento de clique do mouse na tabela
+     */
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int linhaSelecionada = jTable1.getSelectedRow();
         if (linhaSelecionada != -1) {
@@ -329,9 +390,11 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
-     * @param args the command line arguments
+     * Método principal para execução standalone da tela. Configura o look and
+     * feel Nimbus e exibe a tela.
+     *
+     * @param args argumentos de linha de comando (não utilizados)
      */
-    // CORRETO
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -353,6 +416,11 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmGerenciarCategoria().setVisible(true));
     }
+    /**
+     * Lista em memória com todas as categorias carregadas do banco de dados.
+     * Utilizada para operações de busca e controle sem consultas adicionais ao
+     * banco.
+     */
     private java.util.List<modelo.Categoria> listaCategorias = new java.util.ArrayList<>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -369,7 +437,14 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
     private javax.swing.JTextField jTFNomeCategoriaGC;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-
+ /**
+     * Carrega todas as categorias do banco de dados e popula a tabela.
+     * <p>
+     * Atualiza o {@code listaCategorias} com os dados mais recentes do banco e
+     * exibe cada categoria como uma linha na tabela. Exibe mensagem de erro
+     * caso ocorra falha na conexão ou consulta ao banco.
+     * </p>
+     */
     private void carregaTabela() {
         try {
             listaCategorias = new CategoriaDAO().listarTodos();

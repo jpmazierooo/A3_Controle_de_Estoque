@@ -37,9 +37,9 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="JBSalvarGC" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jBAlterarGC" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBEditarGC" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jBExcluirGC" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBApagarGC" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -85,8 +85,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jBNovoGC" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="JBSalvarGC" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jBAlterarGC" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jBExcluirGC" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBEditarGC" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBApagarGC" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBVoltarGC" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="29" max="32767" attributes="0"/>
@@ -114,20 +114,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBNovoGCActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jBAlterarGC">
+    <Component class="javax.swing.JButton" name="jBEditarGC">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Alterar"/>
+        <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBAlterarGCActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBEditarGCActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jBExcluirGC">
+    <Component class="javax.swing.JButton" name="jBApagarGC">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Excluir"/>
+        <Property name="text" type="java.lang.String" value="Apagar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBExcluirGCActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBApagarGCActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBVoltarGC">

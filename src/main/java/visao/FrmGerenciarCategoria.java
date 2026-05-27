@@ -28,8 +28,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
-        jBAlterarGC.setEnabled(false); // desabilita Alterar
-        jBExcluirGC.setEnabled(false); // desabilita Excluir
+        jBEditarGC.setEnabled(false); // desabilita Alterar
+        jBApagarGC.setEnabled(false); // desabilita Excluir
         carregaTabela();
     }
 
@@ -44,8 +44,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
         jLGerenciarCategorias = new javax.swing.JLabel();
         jBNovoGC = new javax.swing.JButton();
-        jBAlterarGC = new javax.swing.JButton();
-        jBExcluirGC = new javax.swing.JButton();
+        jBEditarGC = new javax.swing.JButton();
+        jBApagarGC = new javax.swing.JButton();
         jBVoltarGC = new javax.swing.JButton();
         jTFNomeCategoriaGC = new javax.swing.JTextField();
         jCBTipoTamanhoGC = new javax.swing.JComboBox<>();
@@ -64,11 +64,11 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         jBNovoGC.setText("Novo");
         jBNovoGC.addActionListener(this::jBNovoGCActionPerformed);
 
-        jBAlterarGC.setText("Alterar");
-        jBAlterarGC.addActionListener(this::jBAlterarGCActionPerformed);
+        jBEditarGC.setText("Editar");
+        jBEditarGC.addActionListener(this::jBEditarGCActionPerformed);
 
-        jBExcluirGC.setText("Excluir");
-        jBExcluirGC.addActionListener(this::jBExcluirGCActionPerformed);
+        jBApagarGC.setText("Apagar");
+        jBApagarGC.addActionListener(this::jBApagarGCActionPerformed);
 
         jBVoltarGC.setText("Voltar");
         jBVoltarGC.addActionListener(this::jBVoltarGCActionPerformed);
@@ -122,9 +122,9 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(JBSalvarGC)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBAlterarGC)
+                                .addComponent(jBEditarGC)
                                 .addGap(18, 18, 18)
-                                .addComponent(jBExcluirGC))
+                                .addComponent(jBApagarGC))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
@@ -159,8 +159,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNovoGC)
                     .addComponent(JBSalvarGC)
-                    .addComponent(jBAlterarGC)
-                    .addComponent(jBExcluirGC)
+                    .addComponent(jBEditarGC)
+                    .addComponent(jBApagarGC)
                     .addComponent(jBVoltarGC))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -179,8 +179,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         this.jCBTipoTamanhoGC.setSelectedIndex(0);
         this.jCBTipoEmbalagemGC.setSelectedIndex(0);
         this.jTFNomeCategoriaGC.requestFocus();
-        jBAlterarGC.setEnabled(false); // desabilita ao limpar
-        jBExcluirGC.setEnabled(false); // desabilita ao limpar
+        jBEditarGC.setEnabled(false); // desabilita ao limpar
+        jBApagarGC.setEnabled(false); // desabilita ao limpar
     }//GEN-LAST:event_jBNovoGCActionPerformed
     /**
      * Exclui a categoria selecionada na tabela após confirmação do usuário.
@@ -189,7 +189,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
      *
      * @param evt evento de clique no botão Excluir
      */
-    private void jBExcluirGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirGCActionPerformed
+    private void jBApagarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBApagarGCActionPerformed
         int linhaSelecionada = jTable1.getSelectedRow();
 
         if (linhaSelecionada == -1) {
@@ -210,14 +210,14 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             try {
                 new CategoriaDAO().deletar(id);
                 JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
-                jBAlterarGC.setEnabled(false);
-                jBExcluirGC.setEnabled(false);
+                jBEditarGC.setEnabled(false);
+                jBApagarGC.setEnabled(false);
                 carregaTabela();
             } catch (DbException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao excluir: " + e.getMessage());
             }
         }
-    }//GEN-LAST:event_jBExcluirGCActionPerformed
+    }//GEN-LAST:event_jBApagarGCActionPerformed
     /**
      * @param evt evento do ComboBox de tamanho
      */
@@ -294,7 +294,7 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
      *
      * @param evt evento de clique no botão Alterar
      */
-    private void jBAlterarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarGCActionPerformed
+    private void jBEditarGCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarGCActionPerformed
         int linhaSelecionada = jTable1.getSelectedRow();
 
         if (linhaSelecionada == -1) {
@@ -325,10 +325,10 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
         this.jTFNomeCategoriaGC.setText("");
         this.jCBTipoTamanhoGC.setSelectedIndex(0);
         this.jCBTipoEmbalagemGC.setSelectedIndex(0);
-        jBAlterarGC.setEnabled(false);
-        jBExcluirGC.setEnabled(false);
+        jBEditarGC.setEnabled(false);
+        jBApagarGC.setEnabled(false);
         carregaTabela();
-    }//GEN-LAST:event_jBAlterarGCActionPerformed
+    }//GEN-LAST:event_jBEditarGCActionPerformed
     /**
      * Cadastra uma nova categoria no banco de dados.
      * <p>
@@ -384,8 +384,8 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
             this.jTFNomeCategoriaGC.setText(jTable1.getValueAt(linhaSelecionada, 1).toString());
             this.jCBTipoTamanhoGC.setSelectedItem(jTable1.getValueAt(linhaSelecionada, 2).toString());
             this.jCBTipoEmbalagemGC.setSelectedItem(jTable1.getValueAt(linhaSelecionada, 3).toString());
-            jBAlterarGC.setEnabled(true);
-            jBExcluirGC.setEnabled(true);
+            jBEditarGC.setEnabled(true);
+            jBApagarGC.setEnabled(true);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -425,9 +425,9 @@ public class FrmGerenciarCategoria extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBSalvarGC;
-    private javax.swing.JButton jBAlterarGC;
+    private javax.swing.JButton jBApagarGC;
     private javax.swing.JButton jBBuscarGC;
-    private javax.swing.JButton jBExcluirGC;
+    private javax.swing.JButton jBEditarGC;
     private javax.swing.JButton jBNovoGC;
     private javax.swing.JButton jBVoltarGC;
     private javax.swing.JComboBox<String> jCBTipoEmbalagemGC;

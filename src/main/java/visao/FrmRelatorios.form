@@ -98,12 +98,13 @@
     <Component class="javax.swing.JComboBox" name="jComboBox2">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="6">
             <StringItem index="0" value="Lista de Pre&#xe7;os"/>
             <StringItem index="1" value="Balan&#xe7;o Financeiro"/>
             <StringItem index="2" value="Estoque abaixo do minimo"/>
             <StringItem index="3" value="Produto com maior entrada"/>
             <StringItem index="4" value="Produto com maior saida"/>
+            <StringItem index="5" value="Produto por categoria"/>
           </StringArray>
         </Property>
       </Properties>

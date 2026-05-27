@@ -44,7 +44,7 @@ public class FrmRelatorios extends javax.swing.JFrame {
         jLabel1.setText("RELATÓRIOS");
         jLabel1.setName(""); // NOI18N
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista de Preços", "Balanço Financeiro", "Estoque abaixo do minimo", "Produto com maior entrada", "Produto com maior saida" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista de Preços", "Balanço Financeiro", "Estoque abaixo do minimo", "Produto com maior entrada", "Produto com maior saida", "Produto por categoria" }));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Relatório:");
@@ -140,7 +140,11 @@ public class FrmRelatorios extends javax.swing.JFrame {
         else if (tipoRelatorio.equals("Balanço Financeiro")) {
         sql = "SELECT nome, preco_unitario, quantidade_estoque, (preco_unitario * quantidade_estoque) AS total FROM produtos ORDER BY nome ASC";
         }
-        
+        else if (tipoRelatorio.equals("Produto por categoria")) {
+        sql = "SELECT c.nome, COUNT(DISTINCT p.id) AS total FROM categorias c JOIN produtos p ON p.categoria_id = c.id GROUP BY c.nome ORDER BY c.nome";
+        }
+            
+          
         else {
         JOptionPane.showMessageDialog(this, "Relatório ainda não implementado");
         return;
@@ -194,6 +198,10 @@ public class FrmRelatorios extends javax.swing.JFrame {
                  + " | Estoque: " + rs.getInt(3)
                  + " | Total: R$ " + rs.getDouble(4);
             }
+            if (tipoRelatorio.equals("Produto por categoria")) {
+               linha = rs.getString(1) + " | Quantidade: " + rs.getInt(2);
+            }
+            
             
             content.showText(linha);
             content.endText();

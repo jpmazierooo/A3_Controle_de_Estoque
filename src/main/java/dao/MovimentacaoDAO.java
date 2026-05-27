@@ -7,12 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.Movimentacao;
 
-/**
- * Classe Data Access Object (DAO) para Movimentacao.
- * Realiza operações de inserção e consulta na tabela "movimentacoes".
- *
- * @author Derek Slater
- */
 public class MovimentacaoDAO {
 
     private Connection conn;
@@ -21,11 +15,6 @@ public class MovimentacaoDAO {
         this.conn = Database.getConnection();
     }
 
-    /**
-     * Insere uma nova movimentação no banco de dados.
-     *
-     * @param obj A movimentação a ser inserida.
-     */
     public void inserir(Movimentacao obj) {
         String sql = "INSERT INTO movimentacoes (nome, tipo, qtd, data, movimentacao, status_estoque) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -41,25 +30,19 @@ public class MovimentacaoDAO {
         }
     }
 
-    /**
-     * Retorna todas as movimentações registradas, da mais recente para a mais antiga.
-     *
-     * @return Lista de {@link Movimentacao}.
-     */
     public List<Movimentacao> listarMovimentacoes() {
         List<Movimentacao> lista = new ArrayList<>();
         String sql = "SELECT * FROM movimentacoes ORDER BY data DESC, id DESC";
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 lista.add(new Movimentacao(
-                    rs.getInt("id"),
-                    rs.getString("nome"),
-                    rs.getString("tipo"),
-                    rs.getInt("qtd"),
-                    rs.getString("data"),
-                    rs.getString("movimentacao"),
-                    rs.getString("status_estoque")
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("tipo"),
+                        rs.getInt("qtd"),
+                        rs.getString("data"),
+                        rs.getString("movimentacao"),
+                        rs.getString("status_estoque")
                 ));
             }
         } catch (SQLException e) {
@@ -68,7 +51,6 @@ public class MovimentacaoDAO {
         return lista;
     }
 
-    /** @return {@code true} se existem movimentações cadastradas. */
     public boolean possuiMovimentacoes() {
         return !listarMovimentacoes().isEmpty();
     }

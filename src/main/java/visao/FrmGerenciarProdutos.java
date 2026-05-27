@@ -668,7 +668,16 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
             if (categoriaId == -1) {
                 throw new Mensagem("Selecione uma categoria válida.");
             }
-
+            ArrayList<Produto> listaAtual = objetoProduto.getMinhaLista();
+            for (Produto p : listaAtual) {
+                if (p.getNome().equalsIgnoreCase(nome)
+                        && p.getUnidade().equalsIgnoreCase(unidade)
+                        && p.getCategoriaId() == categoriaId
+                        && p.getId() != id) { // ignora o próprio produto
+                    JOptionPane.showMessageDialog(null, "Já existe um produto com esse nome, unidade e categoria!");
+                    return;
+                }
+            }
             // envia os dados para o DAO editar
             if (this.objetoProduto.updateProdutoBD(id, nome, precoUn, unidade, quantidade, quantidadeMin, quantidadeMax, categoriaId)) {
                 JOptionPane.showMessageDialog(null, "Produto Editado com Sucesso!");

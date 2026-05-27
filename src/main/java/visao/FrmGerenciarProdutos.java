@@ -294,7 +294,7 @@ public class FrmGerenciarProdutos extends javax.swing.JFrame {
         jButton1.setText("Apagar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jButton2.setText("Sair");
+        jButton2.setText("Voltar");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jTableGerenciar.setModel(new javax.swing.table.DefaultTableModel(

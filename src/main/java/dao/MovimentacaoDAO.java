@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.Movimentacao;
 
+/**
+ * DAO responsável pelas operações de movimentação no banco de dados.
+ */
 public class MovimentacaoDAO {
 
     private Connection conn;
@@ -15,6 +18,9 @@ public class MovimentacaoDAO {
         this.conn = Database.getConnection();
     }
 
+    /**
+     * Insere uma nova movimentação no banco de dados.
+     */
     public void inserir(Movimentacao obj) {
         String sql = "INSERT INTO movimentacoes (nome, tipo, qtd, data, movimentacao, status_estoque) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -30,9 +36,15 @@ public class MovimentacaoDAO {
         }
     }
 
+    /**
+     * Busca todas as movimentações cadastradas e retorna uma lista.
+     */
     public List<Movimentacao> listarMovimentacoes() {
         List<Movimentacao> lista = new ArrayList<>();
+
+        // Ordena da movimentação mais recente para a mais antiga
         String sql = "SELECT * FROM movimentacoes ORDER BY data DESC, id DESC";
+
         try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 lista.add(new Movimentacao(
@@ -51,6 +63,9 @@ public class MovimentacaoDAO {
         return lista;
     }
 
+    /**
+     * Verifica se existe pelo menos uma movimentação cadastrada.
+     */
     public boolean possuiMovimentacoes() {
         return !listarMovimentacoes().isEmpty();
     }

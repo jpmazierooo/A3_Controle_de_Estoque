@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * Classe que representa uma movimentação de estoque.
+ */
 public class Movimentacao {
 
     private int id;
@@ -10,6 +13,9 @@ public class Movimentacao {
     private String movimentacao;
     private String statusEstoque;
 
+    /**
+     * Construtor utilizado para criar uma movimentação com todos os dados.
+     */
     public Movimentacao(int id, String nome, String tipo, int qtd, String data, String movimentacao, String statusEstoque) {
         this.id = id;
         this.nome = nome;
@@ -20,6 +26,7 @@ public class Movimentacao {
         this.statusEstoque = statusEstoque;
     }
 
+    // Métodos setters: responsáveis por alterar os atributos do objeto.
     public void setId(int id) {
         this.id = id;
     }
@@ -48,6 +55,7 @@ public class Movimentacao {
         this.statusEstoque = statusEstoque;
     }
 
+    // Métodos getters: responsáveis por retornar os valores dos atributos.
     public int getId() {
         return id;
     }
@@ -76,14 +84,23 @@ public class Movimentacao {
         return statusEstoque;
     }
 
+    /**
+     * Construtor vazio utilizado para criação de objetos sem valores iniciais.
+     */
     public Movimentacao() {
     }
 
+    /**
+     * Verifica se a movimentação é do tipo Entrada.
+     */
     public boolean isEntrada() {
         return movimentacao.equalsIgnoreCase("Entrada");
 
     }
 
+    /**
+     * Verifica se a movimentação é do tipo Saída.
+     */
     public boolean isSaida() {
         return movimentacao.equalsIgnoreCase("Saida");
 

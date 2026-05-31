@@ -7,10 +7,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Classe utilitária responsável por gerenciar a conexão com o banco de dados.
+ * Implementa o padrão Singleton: mantém uma única instância de {@link Connection}
+ * durante toda a execução da aplicação.
+ *
+ * <p>As credenciais e a URL de conexão são lidas do arquivo {@code db.propriedade},
+ * que deve estar presente no classpath (diretório {@code src/main/recurso}).</p>
+ *
+ * @author João Marimon
+ */
 public class Database {
 
     private static Connection conn = null;
 
+    /**
+     * Retorna a conexão ativa com o banco de dados.
+     * Se ainda não existir uma conexão, ela é criada a partir das propriedades
+     * definidas em {@code db.propriedade}.
+     *
+     * @return {@link Connection} ativa com o banco de dados.
+     * @throws DbException se ocorrer erro ao estabelecer a conexão.
+     */
     public static Connection getConnection() {
         if (conn == null) {
             try {
@@ -24,6 +42,11 @@ public class Database {
         return conn;
     }
 
+    /**
+     * Fecha a conexão com o banco de dados, caso esteja aberta.
+     *
+     * @throws DbException se ocorrer erro ao fechar a conexão.
+     */
     public static void closeConnection() {
         if (conn != null) {
             try {
@@ -34,6 +57,12 @@ public class Database {
         }
     }
 
+    /**
+     * Carrega as propriedades de conexão do arquivo {@code db.propriedade} do classpath.
+     *
+     * @return {@link Properties} com as configurações de conexão (dburl, user, password).
+     * @throws DbException se o arquivo não for encontrado ou ocorrer erro de leitura.
+     */
     private static Properties loadProperties() {
         try (InputStream is = Database.class.getClassLoader().getResourceAsStream("db.propriedade")) {
             if (is == null) {

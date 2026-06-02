@@ -5,12 +5,30 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import modelo.Movimentacao;
 
+
+/**
+ * Interface gráfica responsável pela exibição das movimentações de estoque do
+ * sistema. Apresenta, em uma tabela, todas as movimentações cadastradas
+ * (entradas e saídas) e disponibiliza um botão para retorno ao menu principal.
+ *
+ * @author [Seu Nome]
+ */
 public class FrmMovimentacao extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmMovimentacao.class.getName());
 
+    /**
+     * Objeto de acesso a dados utilizado para recuperar as movimentações
+     * cadastradas no banco de dados.
+     */
     private MovimentacaoDAO movimentacaoDAO = new MovimentacaoDAO();
 
+    /**
+     * Construtor padrão da interface. Inicializa os componentes do formulário,
+     * impede o redimensionamento da janela, popula a tabela com as
+     * movimentações, centraliza a janela no meio da tela e ajusta a largura
+     * preferencial de cada coluna da tabela.
+     */
     public FrmMovimentacao() {
 
         initComponents();
@@ -28,6 +46,12 @@ public class FrmMovimentacao extends javax.swing.JFrame {
         jTable3.getColumnModel().getColumn(6).setPreferredWidth(160);
     }
 
+    /**
+     * Limpa as linhas atuais e atualiza os dados da tabela visual
+     * (`jTable3`). Consome os dados da lista retornada pelo MovimentacaoDAO e
+     * adiciona uma linha para cada movimentação encontrada. Caso ocorra algum
+     * erro durante a operação, exibe uma mensagem ao usuário.
+     */
     private void carregarTabela() {
         DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel();
         modelo.setRowCount(0);
